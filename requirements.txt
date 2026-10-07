@@ -1,0 +1,7 @@
+fastapi>=0.110.0,<0.116.0
+numpy>=1.26.0,<3.0.0
+pandas>=2.2.0,<3.0.0
+streamlit>=1.32.0,<2.0.0
+
+# c optimized implementation, includes python-dot_env
+uvicorn[standard]>=0.28.0,<0.35.0
