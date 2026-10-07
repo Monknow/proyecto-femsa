@@ -27,6 +27,9 @@ ENV/
 # *.onnx
 data/
 datasets/
+*.xlsx
+*.xls
+*.csv
 
 # Testing & Coverage
 .tox/
