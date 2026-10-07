@@ -63,3 +63,8 @@ dist-ssr/
 *.swo
 *.swn
 *~
+
+
+*.7z
+*.xlsx
+*.csv
