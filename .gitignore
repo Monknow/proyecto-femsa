@@ -1,0 +1,65 @@
+# ==========================================
+# Python / FastAPI / Backend
+# ==========================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+
+# Environment variables
+.env
+.env.local
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Machine Learning & Data Artifacts (Uncomment if you don't want to track datasets or saved models)
+# *.pkl
+# *.joblib
+# *.h5
+# *.onnx
+data/
+datasets/
+
+# Testing & Coverage
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+htmlcov/
+
+
+# ==========================================
+# Node.js / Vite / React Frontend
+# ==========================================
+
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Production build output
+dist/
+dist-ssr/
+
+# Vite cache
+.vite/
+
+# Local environment files
+.env*.local
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
