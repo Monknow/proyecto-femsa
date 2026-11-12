@@ -632,7 +632,7 @@ async def get_vulnerability_multi_filtered(
 
 
 async def get_server_multi_filtered(
-    filters: ServerMultiFilter, db: Optional[AsyncSession] = None
+    filters: ServerMultiFilter, db: Optional[AsyncSession] = Depends(get_db)
 ) -> ServerListResponse:
     """
     Returns ServerModel rows where each provided field matches ANY value in its
@@ -659,7 +659,7 @@ async def get_server_multi_filtered(
 
 
 async def get_file_metadata_multi_filtered(
-    filters: FileMetadataMultiFilter, db: Optional[AsyncSession] = None
+    filters: FileMetadataMultiFilter, db: Optional[AsyncSession] = Depends(get_db)
 ) -> FileMetadataListResponse:
     """
     Returns FileMetadataModel rows where each provided field matches ANY value
