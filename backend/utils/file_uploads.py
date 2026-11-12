@@ -14,7 +14,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from core.db_connection import get_db
 from models.df_schemas import ServerDataFrameSchema, VulnerabilityDataFrameSchema, FileMetadataDataFrameSchema
-from models.api_schemas import FileMetadataField, ServerField, VulnerabilityField, AggregationData
 
 logger = logging.getLogger(__name__)
 
@@ -396,12 +395,3 @@ def validate_file(
     )
     
     return servers_df, vulnerabilities_df, metadata_df
-
-def vuln_aggregate_by(column: VulnerabiltyField) -> AggregationData:
-    pass
-
-def server_aggregate_by(column: ServerField) -> AggregationData:
-    pass
-
-def filemetadata_aggregate_by(column: FileMetadataField) -> AggregationData:
-    pass

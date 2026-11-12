@@ -25,6 +25,11 @@ from models.api_schemas import (
     VulnerabilityListResponse,
     VulnerabilityResponse,
     VulnerabilityMultiFilter,
+    AggregationResponse,
+    FileMetadataField, 
+    ServerField, 
+    VulnerabilityField, 
+    AggregationData
 )
 from models.db_schemas import FileMetadata, Server, Vulnerability
 from models.models import (
@@ -683,3 +688,51 @@ async def get_file_metadata_multi_filtered(
             )
     except Exception as e:
         handle_db_error(e, "fetching multi-filtered file metadata")
+
+
+def vuln_aggregate_by(vuln_payload: VulnerabilityListResponse, column: VulnerabiltyField) -> AggregationData:
+    vulns = vuln_payload.data
+    aggregated_vulns = Counter(getattr(vuln, column) for vuln in vulns)
+    
+    return AggregationResponse(
+        status=200,
+        data=aggregated_vulns
+    )
+    
+
+def server_aggregate_by(server_payload: ServerListResponse, column: ServerField) -> AggregationData:
+    servers = server_payload.data
+    aggregated_servers = Counter(getattr(server, column) for server in servers)
+    
+    return AggregationResponse(
+        status=200,
+        data=aggregated_servers
+    )
+
+def filemetadata_aggregate_by(filemetadata_payload: FileMetadataListResponse, column: FileMetadataField) -> AggregationData:
+    filemetadatas = filemetadata_payload.data
+    aggregated_filemetadata = Counter(getattr(filemetadata, column) for filemetadata in filemetadatas)
+    
+    return AggregationResponse(
+        status=200,
+        data=aggregated_filemetadata
+    )
+    
+# Define Microservices for Dependency Injection
+def multi_vuln_aggregate_by(column: VulnerabiltyField, vuln_payload = Depends(get_vulnerability_multi_filtered)):
+    return vuln_aggregate_by(vuln_payload, column)
+
+def single_vuln_aggregate_by(column: VulnerabiltyField, vuln_payload = Depends(get_vulnerability_filtered)):
+    return vuln_aggregate_by(vuln_payload, column)
+
+def multi_server_aggregate_by(column: ServerField, server_payload = Depends(get_server_multi_filtered)):
+    return server_aggregate_by(server_payload, column)
+
+def single_server_aggregate_by(column: ServerField, server_payload = Depends(get_server_filtered)):
+    return server_aggregate_by(server_payload, column)
+
+def multi_filemetadata_aggregate_by(column: FileMetadataField, filemetadata_payload = Depends(get_file_metadata_multi_filtered)):
+    return filemetadata_aggregate_by(filemetadata_payload, column)
+
+def single_filemetadata_aggregate_by(column: FileMetadataField, filemetadata_payload = Depends(get_file_metadata_filtered)):
+    return filemetadata_aggregate_by(filemetadata_payload, column)
