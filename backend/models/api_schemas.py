@@ -4,9 +4,9 @@ from models.db_schemas import Vulnerability, Server, FileMetadata
 
 T = TypeVar("T")
 
-AggregationData = dict[str, int]
+AggregationData = dict[str | int, int]
 
-VulnerabiltyField  = Literal[
+VulnerabilityField  = Literal[
     "_id",
     "server_id",
     "vulnerability_type_id",
@@ -220,7 +220,7 @@ class VulnerabilityAggregation(VulnerabilityFilter):
   """A VulnerabilityFilter (Singular) is applied, then
   the data is aggregated by one of the columns. Then this
   model contains all filter options plus an aggregate by field"""
-  aggregate_by: VulnerabiltyField
+  aggregate_by: VulnerabilityField
   
   
 class ServerAggregation(ServerFilter):
@@ -240,7 +240,7 @@ class VulnerabilityMultiFilterAggregation(VulnerabilityMultiFilter):
   """A VulnerabilityMultiFilter (Plural) is applied, then
   the data is aggregated by one of the columns. Then this
   model contains all filter options plus an aggregate by field"""
-  aggregate_by: VulnerabiltyField
+  aggregate_by: VulnerabilityField
   
   
 class ServerMultiFilterAggregation(ServerMultiFilter):

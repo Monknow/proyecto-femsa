@@ -1,17 +1,18 @@
 from contextlib import asynccontextmanager
+from collections import Counter
 import logging
 from pathlib import Path
 import sys
 from typing import Optional, Union
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Depends
 from sqlalchemy import or_, select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from core.db_connection import AsyncSessionLocal
+from core.db_connection import AsyncSessionLocal, get_db
 from models.api_schemas import (
     FileMetadataFilter,
     FileMetadataListResponse,
@@ -604,7 +605,7 @@ async def get_file_metadata_filtered(
 # -------------------------------------------------------------------------
 
 async def get_vulnerability_multi_filtered(
-    filters: VulnerabilityMultiFilter, db: Optional[AsyncSession] = None
+    filters: VulnerabilityMultiFilter, db: Optional[AsyncSession] = Depends(get_db)
 ) -> VulnerabilityListResponse:
     """
     Returns VulnerabilityModel rows where each provided field matches ANY value
@@ -690,7 +691,7 @@ async def get_file_metadata_multi_filtered(
         handle_db_error(e, "fetching multi-filtered file metadata")
 
 
-def vuln_aggregate_by(vuln_payload: VulnerabilityListResponse, column: VulnerabiltyField) -> AggregationData:
+def vuln_aggregate_by(vuln_payload: VulnerabilityListResponse, column: VulnerabilityField) -> AggregationData:
     vulns = vuln_payload.data
     aggregated_vulns = Counter(getattr(vuln, column) for vuln in vulns)
     
@@ -719,10 +720,10 @@ def filemetadata_aggregate_by(filemetadata_payload: FileMetadataListResponse, co
     )
     
 # Define Microservices for Dependency Injection
-def multi_vuln_aggregate_by(column: VulnerabiltyField, vuln_payload = Depends(get_vulnerability_multi_filtered)):
+def multi_vuln_aggregate_by(column: VulnerabilityField, vuln_payload = Depends(get_vulnerability_multi_filtered)):
     return vuln_aggregate_by(vuln_payload, column)
 
-def single_vuln_aggregate_by(column: VulnerabiltyField, vuln_payload = Depends(get_vulnerability_filtered)):
+def single_vuln_aggregate_by(column: VulnerabilityField, vuln_payload = Depends(get_vulnerability_filtered)):
     return vuln_aggregate_by(vuln_payload, column)
 
 def multi_server_aggregate_by(column: ServerField, server_payload = Depends(get_server_multi_filtered)):
