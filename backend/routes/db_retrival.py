@@ -200,3 +200,26 @@ async def get_files_metadata_multi_filtered_aggregated(
 ):
     return response
 
+
+
+
+
+
+@router.post("/vulnerabilities/filtered/agg", response_model=AggregationResponse)
+async def get_vulns_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.single_vuln_aggregate_by)
+):
+    return response
+
+@router.post("/servers/filtered/agg", response_model=AggregationResponse)
+async def get_servers_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.single_server_aggregate_by)
+):
+    return response
+
+@router.post("/files/filtered/agg", response_model=AggregationResponse)
+async def get_files_metadata_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.single_filemetadata_aggregate_by)
+):
+    return response
+

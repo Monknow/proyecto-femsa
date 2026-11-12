@@ -520,7 +520,7 @@ async def fetch_first_n_metadata_files(
 # -------------------------------------------------------------------------
 
 async def get_vulnerability_filtered(
-    filters: VulnerabilityFilter, db: Optional[AsyncSession] = None
+    filters: VulnerabilityFilter, db: Optional[AsyncSession] = Depends(get_db)
 ) -> VulnerabilityListResponse:
     """
     Returns all VulnerabilityModel rows that match every non-None field in
@@ -545,7 +545,7 @@ async def get_vulnerability_filtered(
 
 
 async def get_server_filtered(
-    filters: ServerFilter, db: Optional[AsyncSession] = None
+    filters: ServerFilter, db: Optional[AsyncSession] = Depends(get_db)
 ) -> ServerListResponse:
     """
     Returns all ServerModel rows that match every non-None field in
@@ -570,7 +570,7 @@ async def get_server_filtered(
 
 
 async def get_file_metadata_filtered(
-    filters: FileMetadataFilter, db: Optional[AsyncSession] = None
+    filters: FileMetadataFilter, db: Optional[AsyncSession] = Depends(get_db)
 ) -> FileMetadataListResponse:
     """
     Returns all FileMetadataModel rows that match every non-None field in
