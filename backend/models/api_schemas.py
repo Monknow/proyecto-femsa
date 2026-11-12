@@ -1,8 +1,10 @@
 from pydantic import BaseModel, Field
-from typing import Generic, Optional, TypeVar, Literal
+from typing import Generic, Optional, TypeVar, Literal, Dict
 from models.db_schemas import Vulnerability, Server, FileMetadata
 
 T = TypeVar("T")
+
+AggregationData = dict[str, int]
 
 VulnerabiltyField  = Literal[
     "_id",
@@ -86,6 +88,10 @@ class FileMetadataListResponse(APIResponse[list[FileMetadata]]):
 
 class IdListRequest(BaseModel):
   id_list: list[str] = Field(default_factory=list, description="List of identifiers")
+  
+# Aggregation by Column Schema (Server Response)
+class AggregationResponse(APIResponse[AggregationData]):
+  pass
 
 
 # -------------------------------------------------------------------------
