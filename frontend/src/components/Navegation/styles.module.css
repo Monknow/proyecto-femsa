@@ -1,0 +1,19 @@
+.navegation {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-flow: column;
+    gap: var(--space-4);
+
+    min-width: 12rem;
+    height: 100dvh;
+    padding: var(--space-6);
+
+    background-color: var(--color-surface-inverted);
+
+    a {
+        color: var(--color-text-inverted);
+    }
+}

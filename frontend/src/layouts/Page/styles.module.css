@@ -1,0 +1,5 @@
+.page {
+    flex: 1 1 100%;
+
+    padding: var(--space-4);
+}
