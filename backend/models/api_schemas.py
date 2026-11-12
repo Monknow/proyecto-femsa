@@ -1,8 +1,63 @@
 from pydantic import BaseModel, Field
-from typing import Generic, Optional, TypeVar
+from typing import Generic, Optional, TypeVar, Literal
 from models.db_schemas import Vulnerability, Server, FileMetadata
 
 T = TypeVar("T")
+
+VulnerabiltyField  = Literal[
+    "_id",
+    "server_id",
+    "vulnerability_type_id",
+    "functional_category",
+    "severity",
+    "finding_status",
+    "age_band",
+    "last_seen_band",
+    "detection_frequency_band",
+    "reopen_band",
+    "exploitability",
+    "malware_association",
+    "compliance_flag",
+    "port_category",
+    "protocol_category",
+    "encryption_context",
+    "remediation_category",
+    "slastatus",
+    "asset_criticality",
+    "finding_risk_band"
+]
+
+ServerField = Literal[
+    "_id",
+    "os_family",
+    "os_lifecycle",
+    "infrastructure_type",
+    "asset_type",
+    "functional_role",
+    "environment",
+    "region_group",
+    "asset_criticality",
+    "cpu_capacity_band",
+    "memory_capacity_band",
+    "architecture_band",
+    "inventory_freshness_band",
+    "boot_age_band",
+    "exposure_category",
+    "risk_band",
+    "vulnerability_volume_band"
+]
+
+FileMetadataField = Literal[
+    "_id",
+    "file_name",
+    "size_mb",
+    "upload_date",
+    "records",
+    "new_vulnerabilities",
+    "fixed_vulnerabilities",
+    "updated_vulnerabilities",
+    "updated_servers"
+]
 
 class StatusResponse(BaseModel):
   status: int
@@ -150,3 +205,47 @@ class FileMetadataMultiFilter(BaseModel):
   records: Optional[list[int]] = None
   new_vulnerabilities: Optional[list[int]] = None
   fixed_vulnerabilities: Optional[list[int]] = None
+
+# -------------------------------------------------------------------------
+# Aggregation by Column Schema (After Filter, so it Expands Filter Schemas)
+# -------------------------------------------------------------------------
+
+class VulnerabilityAggregation(VulnerabilityFilter):
+  """A VulnerabilityFilter (Singular) is applied, then
+  the data is aggregated by one of the columns. Then this
+  model contains all filter options plus an aggregate by field"""
+  aggregate_by: VulnerabiltyField
+  
+  
+class ServerAggregation(ServerFilter):
+  """A ServerFilter (Singular) is applied, then
+  the data is aggregated by one of the columns. Then this
+  model contains all filter options plus an aggregate by field"""
+  aggregate_by: ServerField
+  
+  
+class FileMetadataAggregation(FileMetadataFilter):
+  """A FileMetadataMultiFilter (Plural) is applied, then
+  the data is aggregated by one of the columns. Then this
+  model contains all filter options plus an aggregate by field"""
+  aggregate_by: FileMetadataField
+  
+class VulnerabilityMultiFilterAggregation(VulnerabilityMultiFilter):
+  """A VulnerabilityMultiFilter (Plural) is applied, then
+  the data is aggregated by one of the columns. Then this
+  model contains all filter options plus an aggregate by field"""
+  aggregate_by: VulnerabiltyField
+  
+  
+class ServerMultiFilterAggregation(ServerMultiFilter):
+  """A ServerMultiFilter (Plural) is applied, then
+  the data is aggregated by one of the columns. Then this
+  model contains all filter options plus an aggregate by field"""
+  aggregate_by: ServerField
+  
+  
+class FileMetadataMultiFilterAggregation(FileMetadataMultiFilter):
+  """A FileMetadataMultiFilter (Plural) is applied, then
+  the data is aggregated by one of the columns. Then this
+  model contains all filter options plus an aggregate by field"""
+  aggregate_by: FileMetadataField
