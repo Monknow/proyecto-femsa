@@ -1,0 +1,14 @@
+.widget-number {
+    display: flex;
+    flex-flow: column;
+
+    strong {
+        font-size: var(--font-size-5xl);
+    }
+
+    p {
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-bold);
+        color: var(--color-text-muted);
+    }
+}

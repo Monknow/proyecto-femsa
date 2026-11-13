@@ -14,29 +14,118 @@
 
 :root {
     --color-accent: #e5383b;
-    --color-accent-hover: #e5383b;
-    --color-accent-soft: #e5383b;
-    --color-accent-disabled: #e5383b;
+    --color-accent-hover: #ba181b;
+    --color-accent-soft: #ff8d8d;
+    --color-accent-disabled: #f4a4a6;
     --color-secondary: #ff9b54;
-    --color-secondary-hover: #ff9b54;
+    --color-secondary-hover: #f58233;
     --color-tertiary: #f08080;
     --color-surface: #ffffff;
-    --color-surface-raised: #ffffff;
-    --color-surface-sunken: #ffffff;
+    --color-surface-raised: #f8f9fa;
+    --color-surface-sunken: #f1f3f5;
     --color-surface-inverted: #161a1d;
-    --color-surface-inverted-raised: #161a1d;
-    --color-surface-inverted-sunken: #161a1d;
+    --color-surface-inverted-raised: #212529;
+    --color-surface-inverted-sunken: #0b0d0e;
     --color-text: #161a1d;
-    --color-text-muted: #161a1d;
+    --color-text-secondary: #373d42;
+    --color-text-muted: #5a626a;
+    --color-text-subtle: #7c858e;
+    --color-text-placeholder: #929aa3;
+    --color-text-disabled: #b0b7bf;
+    --color-text-accent: #e5383b;
     --color-text-inverted: #ffffff;
+    --color-text-inverted-secondary: #d3d7dc;
+    --color-text-inverted-muted: #9fa6ae;
+    --color-text-inverted-subtle: #6d757d;
+    --color-text-inverted-placeholder: #575e66;
+    --color-text-inverted-disabled: #444a52;
     --color-border: #e0e0e0;
+
+    --color-red: #ff3b5c;
+    --color-orange: #ff7a1a;
+    --color-amber: #ffbe0b;
+    --color-lime: #8ac926;
+    --color-emerald: #10b981;
+    --color-cyan: #06b6d4;
+    --color-blue: #3b82f6;
+    --color-indigo: #6366f1;
+    --color-purple: #a855f7;
+    --color-pink: #ec4899;
 
     --space-1: 0.25rem;
     --space-2: 0.5rem;
+    --space-3: 0.75rem;
     --space-4: 1rem;
+    --space-5: 1.25rem;
     --space-6: 1.5rem;
+    --space-7: 1.75rem;
     --space-8: 2rem;
+    --space-9: 2.25rem;
     --space-10: 2.5rem;
+
+    --padding-widget: var(--space-4);
+
+    --radius-0: 0px;
+    --radius-2: 0.125rem;
+    --radius-4: 0.25rem;
+    --radius-6: 0.375rem;
+    --radius-8: 0.5rem;
+    --radius-12: 0.75rem;
+    --radius-16: 1rem;
+    --radius-20: 1.25rem;
+    --radius-24: 1.5rem;
+    --radius-full: 9999px;
+
+    --radius-none: var(--radius-0);
+    --radius-xs: var(--radius-2);
+    --radius-sm: var(--radius-4);
+    --radius-md: var(--radius-8);
+    --radius-lg: var(--radius-12);
+    --radius-xl: var(--radius-16);
+    --radius-2xl: var(--radius-24);
+    --radius-pill: var(--radius-full);
+
+    --font-size-12: 0.75rem;
+    --font-size-14: 0.875rem;
+    --font-size-16: 1rem;
+    --font-size-18: 1.125rem;
+    --font-size-20: 1.25rem;
+    --font-size-24: 1.5rem;
+    --font-size-30: 1.875rem;
+    --font-size-36: 2.25rem;
+    --font-size-48: 3rem;
+    --font-size-60: 3.75rem;
+
+    --font-size-xs: var(--font-size-12);
+    --font-size-sm: var(--font-size-14);
+    --font-size-md: var(--font-size-16);
+    --font-size-lg: var(--font-size-18);
+    --font-size-xl: var(--font-size-20);
+    --font-size-2xl: var(--font-size-24);
+    --font-size-3xl: var(--font-size-30);
+    --font-size-4xl: var(--font-size-36);
+    --font-size-5xl: var(--font-size-48);
+    --font-size-6xl: var(--font-size-60);
+
+    --font-weight-100: 100;
+    --font-weight-200: 200;
+    --font-weight-300: 300;
+    --font-weight-400: 400;
+    --font-weight-500: 500;
+    --font-weight-600: 600;
+    --font-weight-700: 700;
+    --font-weight-800: 800;
+    --font-weight-900: 900;
+
+    --font-weight-thin: var(--font-weight-100);
+    --font-weight-extralight: var(--font-weight-200);
+    --font-weight-light: var(--font-weight-300);
+    --font-weight-regular: var(--font-weight-400);
+    --font-weight-medium: var(--font-weight-500);
+    --font-weight-semibold: var(--font-weight-600);
+    --font-weight-bold: var(--font-weight-700);
+    --font-weight-extrabold: var(--font-weight-800);
+    --font-weight-black: var(--font-weight-900);
 }
 
 * {
@@ -47,6 +136,8 @@
 
 html {
     font-family: "Plus Jakarta Sans";
+
+    font-size: clamp(12px, min(1.5dvw, 2dvh), 24px);
 }
 
 body {

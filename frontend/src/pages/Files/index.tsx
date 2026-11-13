@@ -1,6 +1,6 @@
 import {FileInput} from "@/components/FileInput";
 
-export const Upload = () => {
+export const Files = () => {
     return (
         <>
             <FileInput />

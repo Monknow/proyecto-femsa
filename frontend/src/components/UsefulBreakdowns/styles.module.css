@@ -1,0 +1,5 @@
+.useful-breakdowns {
+    display: flex;
+    flex-flow: column;
+    gap: var(--space-4);
+}
