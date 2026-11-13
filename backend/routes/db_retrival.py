@@ -20,6 +20,7 @@ from models.api_schemas import (
     VulnerabilityListResponse,
     VulnerabilityResponse,
     VulnerabilityMultiFilter,
+    AggregationResponse
 )
 import services.db_service_retrival as db_service_retrival
 
@@ -180,3 +181,45 @@ async def get_files_metadata_multi_filtered(
     db: AsyncSession = Depends(get_db),
 ):
     return await db_service_retrival.get_file_metadata_multi_filtered(filters=filters, db=db)
+
+@router.post("/vulnerabilities/filtered/multi/agg", response_model=AggregationResponse)
+async def get_vulns_multi_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.multi_vuln_aggregate_by)
+):
+    return response
+
+@router.post("/servers/filtered/multi/agg", response_model=AggregationResponse)
+async def get_servers_multi_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.multi_server_aggregate_by)
+):
+    return response
+
+@router.post("/files/filtered/multi/agg", response_model=AggregationResponse)
+async def get_files_metadata_multi_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.multi_filemetadata_aggregate_by)
+):
+    return response
+
+
+
+
+
+
+@router.post("/vulnerabilities/filtered/agg", response_model=AggregationResponse)
+async def get_vulns_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.single_vuln_aggregate_by)
+):
+    return response
+
+@router.post("/servers/filtered/agg", response_model=AggregationResponse)
+async def get_servers_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.single_server_aggregate_by)
+):
+    return response
+
+@router.post("/files/filtered/agg", response_model=AggregationResponse)
+async def get_files_metadata_filtered_aggregated(
+    response: AggregationResponse = Depends(db_service_retrival.single_filemetadata_aggregate_by)
+):
+    return response
+
