@@ -255,3 +255,15 @@ class FileMetadataMultiFilterAggregation(FileMetadataMultiFilter):
   the data is aggregated by one of the columns. Then this
   model contains all filter options plus an aggregate by field"""
   aggregate_by: FileMetadataField
+
+# -------------------------------------------------------------------------
+# Scoring Request / Response Schemas
+# -------------------------------------------------------------------------
+
+class ScoreVulnRequest(BaseModel):
+    """Request payload for vulnerability scoring – only the vulnerability ID is required."""
+    vuln_id: str
+
+class ScoreVulnResponse(APIResponse[float]):
+    """Response containing the numeric score for a vulnerability."""
+    pass

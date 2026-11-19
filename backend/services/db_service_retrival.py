@@ -30,7 +30,9 @@ from models.api_schemas import (
     FileMetadataField, 
     ServerField, 
     VulnerabilityField, 
-    AggregationData
+    AggregationData,
+    ScoreVulnRequest, 
+    ScoreVulnResponse
 )
 from models.db_schemas import FileMetadata, Server, Vulnerability
 from models.models import (
@@ -756,6 +758,85 @@ def filemetadata_aggregate_by(filemetadata_payload: FileMetadataListResponse, co
     )
     
 # Define Microservices for Dependency Injection
+
+# -------------------------------------------------------------------------
+# Vulnerability Scoring Service
+# -------------------------------------------------------------------------
+
+# Weight maps based on the categories you provided
+_EXPOSURE_WEIGHT = {
+    "INTERNAL": 1,
+    "INTERNET_EXPOSED": 3,
+}
+_RISK_WEIGHT = {
+    "VERY_HIGH": 4,
+    "HIGH": 3,
+    "MEDIUM": 2,
+    "LOW": 1,
+}
+_ASSET_CRITICALITY_WEIGHT = {
+    "CRITICAL": 5,
+    "VERY_HIGH": 4,
+    "HIGH": 3,
+    "MEDIUM": 2,
+    "LOW": 1,
+}
+_ENVIRONMENT_WEIGHT = {
+    "PRODUCTION": 3,
+    "TEST": 2,
+    "DEVELOPMENT": 1,
+}
+
+async def score_vulnerability(
+    request: ScoreVulnRequest,
+    db: Optional[AsyncSession] = Depends(get_db),
+) -> ScoreVulnResponse:
+    """Calculate a numeric risk score for a vulnerability.
+
+    The score is a simple sum of:
+    * Vulnerability severity (if present, otherwise 0)
+    * Server exposure_category weight
+    * Server risk_band weight
+    * Server asset_criticality weight
+    * Server environment weight
+    """
+    vuln_id = request.vuln_id.strip()
+    if not vuln_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="vuln_id cannot be empty")
+
+    try:
+        async with session_scope(db) as session:
+            # Fetch vulnerability
+            vuln_stmt = select(VulnerabilityModel).where(VulnerabilityModel._id == vuln_id)
+            vuln_res = await session.execute(vuln_stmt)
+            vuln = vuln_res.scalars().first()
+            if not vuln:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Vulnerability '{vuln_id}' not found")
+
+            # Fetch associated server
+            server_stmt = select(ServerModel).where(ServerModel._id == vuln.server_id)
+            server_res = await session.execute(server_stmt)
+            server = server_res.scalars().first()
+            if not server:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Server '{vuln.server_id}' not found for vulnerability")
+
+            # Compute score components
+            severity_score = vuln.severity or 0
+            exposure_score = _EXPOSURE_WEIGHT.get((server.exposure_category or "").upper(), 0)
+            risk_score = _RISK_WEIGHT.get((server.risk_band or "").upper(), 0)
+            asset_score = _ASSET_CRITICALITY_WEIGHT.get((server.asset_criticality or "").upper(), 0)
+            env_score = _ENVIRONMENT_WEIGHT.get((server.environment or "").upper(), 0)
+
+            # Raw total (max possible ~25 assuming severity max=10)
+            raw_total = severity_score + exposure_score + risk_score + asset_score + env_score
+            # Normalise to 0‑100 scale
+            max_possible = 25  # severity (max 10) + 3 + 4 + 5 + 3 = 25
+            normalized_score = round((raw_total / max_possible) * 100, 2)
+
+            return ScoreVulnResponse(status=status.HTTP_200_OK, data=normalized_score)
+    except Exception as e:
+        handle_db_error(e, f"scoring vulnerability '{vuln_id}'")
+
 def multi_vuln_aggregate_by(column: VulnerabilityField, vuln_payload = Depends(get_vulnerability_multi_filtered)):
     return vuln_aggregate_by(vuln_payload, column)
 

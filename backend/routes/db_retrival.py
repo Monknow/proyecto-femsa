@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from core.db_connection import get_db
 from models.api_schemas import (
+    ScoreVulnRequest,
+    ScoreVulnResponse,
     FileMetadataFilter,
     FileMetadataListResponse,
     FileMetadataResponse,
@@ -20,7 +22,7 @@ from models.api_schemas import (
     VulnerabilityListResponse,
     VulnerabilityResponse,
     VulnerabilityMultiFilter,
-    AggregationResponse
+    AggregationResponse,
 )
 import services.db_service_retrival as db_service_retrival
 
@@ -207,6 +209,11 @@ async def get_files_metadata_multi_filtered_aggregated(
 ):
     return response
 
+@router.post("/score_vuln", response_model=ScoreVulnResponse)
+async def score_vuln_endpoint(
+    response: ScoreVulnResponse = Depends(db_service_retrival.score_vulnerability)
+) -> ScoreVulnResponse:
+    return response
 
 
 
