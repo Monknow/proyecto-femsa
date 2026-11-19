@@ -1,0 +1,34 @@
+.downloads {
+    display: flex;
+    align-items: center;
+
+    grid-area: downloads;
+
+    ul {
+        display: flex;
+        list-style: none;
+    }
+
+    p {
+        color: var(--color-text-muted);
+    }
+
+    button {
+        all: unset;
+
+        padding: var(--space-1) var(--space-4);
+        border-right: 1px solid var(--color-border);
+
+        color: var(--color-text-muted);
+        &:hover,
+        &:active {
+            cursor: pointer;
+            color: var(--color-text);
+            font-weight: var(--font-weight-medium);
+        }
+    }
+
+    li:last-child button {
+        border-right: none;
+    }
+}

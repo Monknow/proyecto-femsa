@@ -1,9 +1,7 @@
-import {FileInput} from "@/components/FileInput";
+import {Files} from "@/components/Files";
 
-export const Files = () => {
-    return (
-        <>
-            <FileInput />
-        </>
-    );
+const FilesPage = () => {
+    return <Files />;
 };
+
+export default FilesPage;

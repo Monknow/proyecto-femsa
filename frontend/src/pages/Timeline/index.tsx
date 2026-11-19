@@ -1,7 +1,7 @@
-export const Timeline = () => {
-    return (
-        <div>
-            <p>Timeline</p>
-        </div>
-    );
+import {Timeline} from "@/components/Timeline";
+
+const TimelinePage = () => {
+    return <Timeline />;
 };
+
+export default TimelinePage;

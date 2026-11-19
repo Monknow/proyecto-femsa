@@ -1,0 +1,21 @@
+.tabs {
+    display: flex;
+    gap: var(--space-2);
+
+    list-style: none;
+
+    li {
+        padding: var(--space-2) var(--space-4);
+
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+
+        &.active {
+            background: var(--color-accent-soft);
+        }
+
+        &:not(.active):hover {
+            background-color: var(--color-surface-sunken);
+        }
+    }
+}

@@ -426,6 +426,42 @@ async def get_files_that_update_server(
         handle_db_error(e, f"fetching files that updated server '{clean_id}'")
 
 
+async def get_files_that_update_vulnerability(
+    _id: str, db: Optional[AsyncSession] = None
+) -> FileMetadataListResponse:
+    logger.info(f"Fetching files that updated vulnerability _id: '{_id}'")
+    if not _id or not _id.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Vulnerability ID cannot be empty.",
+        )
+
+    clean_id = _id.strip()
+    try:
+        async with session_scope(db) as session:
+            stmt = (
+                select(FileMetadataModel)
+                .join(
+                    file_vulnerabilities_association,
+                    FileMetadataModel._id == file_vulnerabilities_association.c.file_id,
+                )
+                .where(file_vulnerabilities_association.c.vulnerability_id == clean_id)
+                .options(
+                    selectinload(FileMetadataModel.updated_vulnerabilities),
+                    selectinload(FileMetadataModel.updated_servers),
+                )
+                .distinct()
+            )
+            result = await session.execute(stmt)
+            files = result.scalars().all()
+            return FileMetadataListResponse(
+                status=status.HTTP_200_OK,
+                data=[FileMetadata.model_validate(f) for f in files],
+            )
+    except Exception as e:
+        handle_db_error(e, f"fetching files that updated vulnerability '{clean_id}'")
+
+
 # -------------------------------------------------------------------------
 # First N Entity Retrieval
 # -------------------------------------------------------------------------

@@ -1,3 +1,7 @@
-export const Explorer = () => {
-    return <p>Explorer</p>;
+import {Explorer} from "@/components/Explorer";
+
+const ExplorerPage = () => {
+    return <Explorer />;
 };
+
+export default ExplorerPage;

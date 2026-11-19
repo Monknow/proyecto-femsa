@@ -1,0 +1,38 @@
+import type {FC} from "react";
+
+import {WidgetWrapper} from "@components/WidgetWrapper";
+import {Async} from "@/components/Async";
+import {api} from "@/api/client";
+import {useApi} from "@/hooks/useApi";
+
+type HistoryProps = {
+    id: string;
+};
+
+export const History: FC<HistoryProps> = ({id}) => {
+    const history = useApi(() => api.getServerHistory(id), [id]);
+
+    return (
+        <WidgetWrapper title="Historial">
+            <Async state={history}>
+                {(files) =>
+                    files.length === 0 ? (
+                        <p>Sin historial</p>
+                    ) : (
+                        <ul>
+                            {files.map(({_id, file_name, upload_date}) => {
+                                return (
+                                    <li key={_id}>
+                                        <p>Actualizado</p>
+                                        <p>{file_name}</p>
+                                        <p>{new Date(upload_date).toLocaleDateString()}</p>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )
+                }
+            </Async>
+        </WidgetWrapper>
+    );
+};

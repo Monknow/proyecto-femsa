@@ -1,0 +1,19 @@
+.server {
+    display: flex;
+    flex-flow: column;
+    padding: var(--space-4);
+
+    border: 3px solid var(--color-accent-soft);
+}
+
+.frontmatter {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-1);
+
+    text-decoration: none;
+
+    > * {
+        flex: 1;
+    }
+}

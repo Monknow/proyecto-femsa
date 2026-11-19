@@ -1,0 +1,10 @@
+.explorer {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    gap: var(--space-4);
+
+    header {
+        grid-area: header;
+    }
+}

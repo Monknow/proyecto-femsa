@@ -1,10 +1,7 @@
-import {MainWidgets} from "@/components/MainWidgets";
+import {Home} from "@/components/Home";
 
-export const Home = () => {
-    return (
-        <div>
-            <p>Home</p>
-            <MainWidgets />
-        </div>
-    );
+const HomePage = () => {
+    return <Home />;
 };
+
+export default HomePage;

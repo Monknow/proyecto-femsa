@@ -31,6 +31,7 @@ export const SingleBreakdown: FC<SingleBreakdownProps> = ({title, data}) => {
                 {data.map(({name, value, level}, index) => {
                     return (
                         <div
+                            key={name}
                             className={classes["segment"]}
                             style={{
                                 width: `${(value / totalValues) * 100}%`,

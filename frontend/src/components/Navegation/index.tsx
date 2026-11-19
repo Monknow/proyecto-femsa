@@ -12,7 +12,6 @@ export const Navegation = () => {
                 Files
             </NavLink>
             <NavLink to="/timeline">Timeline</NavLink>
-            <NavLink to="/dashboard">Dashboard</NavLink>
             <NavLink to="/explorer">Explorer</NavLink>
             <NavLink to="/vulnerabilities">Vulnerabilities</NavLink>
             <NavLink to="/servers">Servers</NavLink>

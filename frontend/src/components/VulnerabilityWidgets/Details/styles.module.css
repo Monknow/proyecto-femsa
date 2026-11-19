@@ -1,0 +1,9 @@
+.details {
+    display: flex;
+    flex-flow: column;
+    gap: var(--space-1);
+
+    ul {
+        list-style-position: inside;
+    }
+}

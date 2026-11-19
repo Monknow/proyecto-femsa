@@ -2,14 +2,12 @@
     font-family: "Plus Jakarta Sans";
     src: url("./assets/fonts/PlusJakartaSans/PlusJakartaSans.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal;
 }
 
 @font-face {
     font-family: "Plus Jakarta Sans Italic";
     src: url("./assets/fonts/PlusJakartaSans/PlusJakartaSansItalic.ttf") format("truetype");
     font-style: italic;
-    font-weight: normal;
 }
 
 :root {
@@ -20,9 +18,9 @@
     --color-secondary: #ff9b54;
     --color-secondary-hover: #f58233;
     --color-tertiary: #f08080;
-    --color-surface: #ffffff;
-    --color-surface-raised: #f8f9fa;
-    --color-surface-sunken: #f1f3f5;
+    --color-surface: #fcf9f9;
+    --color-surface-raised: #ffffff;
+    --color-surface-sunken: #e7e7e7;
     --color-surface-inverted: #161a1d;
     --color-surface-inverted-raised: #212529;
     --color-surface-inverted-sunken: #0b0d0e;

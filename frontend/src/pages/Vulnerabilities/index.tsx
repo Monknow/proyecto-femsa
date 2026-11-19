@@ -1,7 +1,7 @@
-export const Vulnerabilities = () => {
-    return (
-        <div>
-            <p>Vulnerabilities</p>
-        </div>
-    );
+import {Vulnerabilities} from "@/components/Vulnerabilities";
+
+const VulnerabilitiesPage = () => {
+    return <Vulnerabilities />;
 };
+
+export default VulnerabilitiesPage;

@@ -1,0 +1,394 @@
+2026-11-18 13:09:39,850 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2026-11-18 13:09:39,851 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-11-18 13:09:39,855 INFO sqlalchemy.engine.Engine select current_schema()
+2026-11-18 13:09:39,856 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-11-18 13:09:39,858 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2026-11-18 13:09:39,858 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-11-18 13:09:39,860 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:39,863 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname IN ($7::VARCHAR, $8::VARCHAR, $9::VARCHAR, $10::VARCHAR, $11::VARCHAR) AND pg_catalog.pg_class.relkind = ANY (ARRAY[$1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $6::VARCHAR
+2026-11-18 13:09:39,864 INFO sqlalchemy.engine.Engine [generated in 0.00071s] ('r', 'p', 'f', 'v', 'm', 'pg_catalog', 'file_vulnerabilities', 'file_servers', 'servers', 'vulnerabilities', 'file_metadata')
+2026-11-18 13:09:39,874 INFO sqlalchemy.engine.Engine COMMIT
+INFO:     127.0.0.1:26794 - "GET /healthz HTTP/1.1" 200 OK
+2026-11-18 13:09:42,630 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:42,652 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:42,652 INFO sqlalchemy.engine.Engine [generated in 0.00086s] ()
+INFO:     127.0.0.1:26796 - "POST /db/vulnerabilities/filtered/agg?column=finding_status HTTP/1.1" 200 OK
+2026-11-18 13:09:42,782 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:43,027 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:43,030 INFO sqlalchemy.engine.Engine SELECT DISTINCT file_metadata._id, file_metadata.file_name, file_metadata.size_mb, file_metadata.upload_date, file_metadata.records, file_metadata.new_vulnerabilities, file_metadata.fixed_vulnerabilities 
+FROM file_metadata JOIN file_vulnerabilities ON file_metadata._id = file_vulnerabilities.file_id 
+WHERE file_vulnerabilities.vulnerability_id = $1::VARCHAR
+2026-11-18 13:09:43,031 INFO sqlalchemy.engine.Engine [generated in 0.00049s] ('FND-000001',)
+2026-11-18 13:09:43,041 INFO sqlalchemy.engine.Engine SELECT file_servers.file_id, servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM file_servers JOIN servers ON servers._id = file_servers.server_id 
+WHERE file_servers.file_id IN ($1::VARCHAR)
+2026-11-18 13:09:43,041 INFO sqlalchemy.engine.Engine [generated in 0.00081s] ('9250331b142004d6',)
+2026-11-18 13:09:43,051 INFO sqlalchemy.engine.Engine SELECT file_vulnerabilities.file_id, vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM file_vulnerabilities JOIN vulnerabilities ON vulnerabilities._id = file_vulnerabilities.vulnerability_id 
+WHERE file_vulnerabilities.file_id IN ($1::VARCHAR)
+2026-11-18 13:09:43,052 INFO sqlalchemy.engine.Engine [generated in 0.00097s] ('9250331b142004d6',)
+INFO:     127.0.0.1:26802 - "GET /db/files/updates-for-vulnerability/FND-000001 HTTP/1.1" 200 OK
+2026-11-18 13:09:43,222 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:43,542 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:43,544 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:09:43,544 INFO sqlalchemy.engine.Engine [generated in 0.00061s] ()
+INFO:     127.0.0.1:26804 - "POST /db/servers/filtered/agg?column=exposure_category HTTP/1.1" 200 OK
+2026-11-18 13:09:43,553 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:43,798 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:43,802 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:43,802 INFO sqlalchemy.engine.Engine [cached since 1.15s ago] ()
+INFO:     127.0.0.1:26806 - "POST /db/vulnerabilities/filtered/agg?column=severity HTTP/1.1" 200 OK
+2026-11-18 13:09:43,895 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:46,761 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:46,762 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:46,762 INFO sqlalchemy.engine.Engine [cached since 4.11s ago] ()
+INFO:     127.0.0.1:26820 - "POST /db/vulnerabilities/filtered/agg?column=exploitability HTTP/1.1" 200 OK
+2026-11-18 13:09:46,837 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:47,115 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:47,117 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:47,117 INFO sqlalchemy.engine.Engine [cached since 4.465s ago] ()
+INFO:     127.0.0.1:26826 - "POST /db/vulnerabilities/filtered/agg?column=malware_association HTTP/1.1" 200 OK
+2026-11-18 13:09:47,201 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:47,478 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:47,482 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:47,482 INFO sqlalchemy.engine.Engine [cached since 4.83s ago] ()
+INFO:     127.0.0.1:26828 - "POST /db/vulnerabilities/filtered/agg?column=asset_criticality HTTP/1.1" 200 OK
+2026-11-18 13:09:47,705 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:47,983 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:47,987 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:47,988 INFO sqlalchemy.engine.Engine [cached since 5.335s ago] ()
+INFO:     127.0.0.1:26834 - "POST /db/vulnerabilities/filtered/agg?column=finding_risk_band HTTP/1.1" 200 OK
+2026-11-18 13:09:48,086 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:48,382 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:48,383 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:48,384 INFO sqlalchemy.engine.Engine [cached since 5.732s ago] ()
+INFO:     127.0.0.1:26836 - "POST /db/vulnerabilities/filtered/agg?column=slastatus HTTP/1.1" 200 OK
+2026-11-18 13:09:48,560 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:48,895 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:48,896 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:09:48,897 INFO sqlalchemy.engine.Engine [cached since 5.352s ago] ()
+INFO:     127.0.0.1:9476 - "POST /db/servers/filtered/agg?column=risk_band HTTP/1.1" 200 OK
+2026-11-18 13:09:48,913 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:09:49,234 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:09:49,235 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:09:49,236 INFO sqlalchemy.engine.Engine [cached since 6.583s ago] ()
+INFO:     127.0.0.1:62190 - "POST /db/vulnerabilities/filtered/agg?column=server_id HTTP/1.1" 200 OK
+2026-11-18 13:09:49,366 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:11:25,905 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:25,906 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:11:25,906 INFO sqlalchemy.engine.Engine [cached since 103.2s ago] ()
+INFO:     127.0.0.1:2221 - "POST /db/vulnerabilities/filtered/agg?column=severity HTTP/1.1" 200 OK
+2026-11-18 13:11:26,046 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:11:26,059 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:26,060 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:11:26,061 INFO sqlalchemy.engine.Engine [cached since 103.4s ago] ()
+2026-11-18 13:11:26,063 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:26,063 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:11:26,064 INFO sqlalchemy.engine.Engine [cached since 102.5s ago] ()
+2026-11-18 13:11:26,066 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:26,066 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:11:26,067 INFO sqlalchemy.engine.Engine [cached since 103.4s ago] ()
+2026-11-18 13:11:26,068 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:26,069 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:11:26,070 INFO sqlalchemy.engine.Engine [cached since 103.4s ago] ()
+INFO:     127.0.0.1:2223 - "POST /db/servers/filtered/agg?column=exposure_category HTTP/1.1" 200 OK
+2026-11-18 13:11:26,098 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:2224 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:11:26,515 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:2222 - "POST /db/vulnerabilities/filtered/agg?column=finding_status HTTP/1.1" 200 OK
+2026-11-18 13:11:26,528 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:2225 - "POST /db/vulnerabilities/filtered/agg?column=server_id HTTP/1.1" 200 OK
+2026-11-18 13:11:26,536 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:11:34,855 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:34,856 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:11:34,857 INFO sqlalchemy.engine.Engine [cached since 112.2s ago] ()
+INFO:     127.0.0.1:62124 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:11:35,051 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:11:53,433 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:53,435 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:11:53,436 INFO sqlalchemy.engine.Engine [cached since 130.8s ago] ()
+INFO:     127.0.0.1:17718 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:11:53,552 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:11:59,750 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:11:59,753 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:11:59,754 INFO sqlalchemy.engine.Engine [cached since 136.2s ago] ()
+INFO:     127.0.0.1:14341 - "POST /db/servers/filtered HTTP/1.1" 200 OK
+2026-11-18 13:11:59,767 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:12:15,902 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:15,904 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers 
+WHERE servers._id = $1::VARCHAR
+2026-11-18 13:12:15,905 INFO sqlalchemy.engine.Engine [generated in 0.00086s] ('SRV-0003',)
+INFO:     127.0.0.1:12791 - "GET /db/servers/SRV-0003 HTTP/1.1" 200 OK
+2026-11-18 13:12:15,912 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:12:15,953 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:15,955 INFO sqlalchemy.engine.Engine SELECT DISTINCT file_metadata._id, file_metadata.file_name, file_metadata.size_mb, file_metadata.upload_date, file_metadata.records, file_metadata.new_vulnerabilities, file_metadata.fixed_vulnerabilities 
+FROM file_metadata JOIN file_servers ON file_metadata._id = file_servers.file_id 
+WHERE file_servers.server_id = $1::VARCHAR
+2026-11-18 13:12:15,955 INFO sqlalchemy.engine.Engine [generated in 0.00091s] ('SRV-0003',)
+2026-11-18 13:12:15,963 INFO sqlalchemy.engine.Engine SELECT file_servers.file_id, servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM file_servers JOIN servers ON servers._id = file_servers.server_id 
+WHERE file_servers.file_id IN ($1::VARCHAR)
+2026-11-18 13:12:15,964 INFO sqlalchemy.engine.Engine [cached since 152.9s ago] ('9250331b142004d6',)
+2026-11-18 13:12:15,973 INFO sqlalchemy.engine.Engine SELECT file_vulnerabilities.file_id, vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM file_vulnerabilities JOIN vulnerabilities ON vulnerabilities._id = file_vulnerabilities.vulnerability_id 
+WHERE file_vulnerabilities.file_id IN ($1::VARCHAR)
+2026-11-18 13:12:15,973 INFO sqlalchemy.engine.Engine [cached since 152.9s ago] ('9250331b142004d6',)
+INFO:     127.0.0.1:38322 - "GET /db/files/updates-for-server/SRV-0003 HTTP/1.1" 200 OK
+2026-11-18 13:12:16,092 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:12:21,107 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:21,108 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:12:21,109 INFO sqlalchemy.engine.Engine [cached since 158.4s ago] ()
+2026-11-18 13:12:21,122 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:21,123 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:12:21,124 INFO sqlalchemy.engine.Engine [cached since 158.5s ago] ()
+2026-11-18 13:12:21,283 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:21,288 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:12:21,288 INFO sqlalchemy.engine.Engine [cached since 157.7s ago] ()
+2026-11-18 13:12:21,293 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:21,295 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:12:21,296 INFO sqlalchemy.engine.Engine [cached since 158.6s ago] ()
+2026-11-18 13:12:21,301 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:21,304 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:12:21,305 INFO sqlalchemy.engine.Engine [cached since 158.6s ago] ()
+INFO:     127.0.0.1:27620 - "POST /db/vulnerabilities/filtered/agg?column=severity HTTP/1.1" 200 OK
+2026-11-18 13:12:21,321 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:36705 - "POST /db/servers/filtered/agg?column=exposure_category HTTP/1.1" 200 OK
+2026-11-18 13:12:21,363 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:36701 - "POST /db/vulnerabilities/filtered/agg?column=finding_status HTTP/1.1" 200 OK
+2026-11-18 13:12:21,582 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:36706 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:12:21,686 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:36707 - "POST /db/vulnerabilities/filtered/agg?column=server_id HTTP/1.1" 200 OK
+2026-11-18 13:12:21,791 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:36722 - "POST /vulnerabilities/filtered/agg?column=severity HTTP/1.1" 404 Not Found
+2026-11-18 13:12:23,716 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:23,717 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers 
+WHERE servers._id = $1::VARCHAR
+2026-11-18 13:12:23,717 INFO sqlalchemy.engine.Engine [cached since 7.812s ago] ('SRV-0001',)
+INFO:     127.0.0.1:36725 - "GET /db/servers/SRV-0001 HTTP/1.1" 200 OK
+2026-11-18 13:12:23,724 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:12:28,967 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:28,969 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:12:28,970 INFO sqlalchemy.engine.Engine [cached since 166.3s ago] ()
+INFO:     127.0.0.1:25768 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:12:29,087 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:12:49,445 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:12:49,446 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:12:49,447 INFO sqlalchemy.engine.Engine [cached since 186.8s ago] ()
+INFO:     127.0.0.1:23605 - "POST /db/vulnerabilities/filtered/agg?column=severity HTTP/1.1" 200 OK
+2026-11-18 13:12:49,570 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:08,327 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:08,328 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:13:08,328 INFO sqlalchemy.engine.Engine [cached since 205.7s ago] ()
+INFO:     127.0.0.1:61856 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:13:08,395 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:13,408 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:13,409 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:13:13,409 INFO sqlalchemy.engine.Engine [cached since 210.7s ago] ()
+2026-11-18 13:13:13,410 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:13,410 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:13:13,411 INFO sqlalchemy.engine.Engine [cached since 210.7s ago] ()
+2026-11-18 13:13:13,414 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:13,414 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:13:13,415 INFO sqlalchemy.engine.Engine [cached since 209.8s ago] ()
+2026-11-18 13:13:13,418 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:13,418 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:13:13,419 INFO sqlalchemy.engine.Engine [cached since 210.7s ago] ()
+2026-11-18 13:13:13,422 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:13,423 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:13:13,423 INFO sqlalchemy.engine.Engine [cached since 210.7s ago] ()
+INFO:     127.0.0.1:58385 - "POST /db/servers/filtered/agg?column=exposure_category HTTP/1.1" 200 OK
+2026-11-18 13:13:13,436 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:58381 - "POST /db/vulnerabilities/filtered/agg?column=severity HTTP/1.1" 200 OK
+2026-11-18 13:13:13,609 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:58382 - "POST /db/vulnerabilities/filtered/agg?column=finding_status HTTP/1.1" 200 OK
+2026-11-18 13:13:13,612 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:58387 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:13:13,667 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:58388 - "POST /db/vulnerabilities/filtered/agg?column=server_id HTTP/1.1" 200 OK
+2026-11-18 13:13:13,716 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:22,086 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:22,088 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities 
+WHERE vulnerabilities._id = $1::VARCHAR
+2026-11-18 13:13:22,089 INFO sqlalchemy.engine.Engine [generated in 0.00057s] ('FND-000001',)
+INFO:     127.0.0.1:37125 - "GET /db/vulnerabilities/FND-000001 HTTP/1.1" 200 OK
+2026-11-18 13:13:22,093 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:22,119 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:22,120 INFO sqlalchemy.engine.Engine SELECT DISTINCT file_metadata._id, file_metadata.file_name, file_metadata.size_mb, file_metadata.upload_date, file_metadata.records, file_metadata.new_vulnerabilities, file_metadata.fixed_vulnerabilities 
+FROM file_metadata JOIN file_vulnerabilities ON file_metadata._id = file_vulnerabilities.file_id 
+WHERE file_vulnerabilities.vulnerability_id = $1::VARCHAR
+2026-11-18 13:13:22,121 INFO sqlalchemy.engine.Engine [cached since 219.1s ago] ('FND-000001',)
+2026-11-18 13:13:22,125 INFO sqlalchemy.engine.Engine SELECT file_servers.file_id, servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM file_servers JOIN servers ON servers._id = file_servers.server_id 
+WHERE file_servers.file_id IN ($1::VARCHAR)
+2026-11-18 13:13:22,125 INFO sqlalchemy.engine.Engine [cached since 219.1s ago] ('9250331b142004d6',)
+2026-11-18 13:13:22,130 INFO sqlalchemy.engine.Engine SELECT file_vulnerabilities.file_id, vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM file_vulnerabilities JOIN vulnerabilities ON vulnerabilities._id = file_vulnerabilities.vulnerability_id 
+WHERE file_vulnerabilities.file_id IN ($1::VARCHAR)
+2026-11-18 13:13:22,130 INFO sqlalchemy.engine.Engine [cached since 219.1s ago] ('9250331b142004d6',)
+INFO:     127.0.0.1:37127 - "GET /db/files/updates-for-vulnerability/FND-000001 HTTP/1.1" 200 OK
+2026-11-18 13:13:22,246 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:25,744 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:25,748 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers 
+WHERE servers._id = $1::VARCHAR
+2026-11-18 13:13:25,748 INFO sqlalchemy.engine.Engine [cached since 69.84s ago] ('SRV-0001',)
+INFO:     127.0.0.1:1144 - "GET /db/servers/SRV-0001 HTTP/1.1" 200 OK
+2026-11-18 13:13:25,751 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:25,776 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:25,778 INFO sqlalchemy.engine.Engine SELECT DISTINCT file_metadata._id, file_metadata.file_name, file_metadata.size_mb, file_metadata.upload_date, file_metadata.records, file_metadata.new_vulnerabilities, file_metadata.fixed_vulnerabilities 
+FROM file_metadata JOIN file_servers ON file_metadata._id = file_servers.file_id 
+WHERE file_servers.server_id = $1::VARCHAR
+2026-11-18 13:13:25,778 INFO sqlalchemy.engine.Engine [cached since 69.82s ago] ('SRV-0001',)
+2026-11-18 13:13:25,784 INFO sqlalchemy.engine.Engine SELECT file_servers.file_id, servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM file_servers JOIN servers ON servers._id = file_servers.server_id 
+WHERE file_servers.file_id IN ($1::VARCHAR)
+2026-11-18 13:13:25,784 INFO sqlalchemy.engine.Engine [cached since 222.7s ago] ('9250331b142004d6',)
+2026-11-18 13:13:25,790 INFO sqlalchemy.engine.Engine SELECT file_vulnerabilities.file_id, vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM file_vulnerabilities JOIN vulnerabilities ON vulnerabilities._id = file_vulnerabilities.vulnerability_id 
+WHERE file_vulnerabilities.file_id IN ($1::VARCHAR)
+2026-11-18 13:13:25,791 INFO sqlalchemy.engine.Engine [cached since 222.7s ago] ('9250331b142004d6',)
+INFO:     127.0.0.1:1146 - "GET /db/files/updates-for-server/SRV-0001 HTTP/1.1" 200 OK
+2026-11-18 13:13:25,892 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:28,889 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:28,899 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:13:28,899 INFO sqlalchemy.engine.Engine [cached since 225.3s ago] ()
+INFO:     127.0.0.1:37166 - "POST /db/servers/filtered HTTP/1.1" 200 OK
+2026-11-18 13:13:28,908 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:13:32,354 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:13:32,355 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:13:32,355 INFO sqlalchemy.engine.Engine [cached since 229.7s ago] ()
+INFO:     127.0.0.1:61341 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:13:32,446 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:15:12,244 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:15:12,245 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:15:12,246 INFO sqlalchemy.engine.Engine [cached since 329.6s ago] ()
+INFO:     127.0.0.1:8727 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:15:12,472 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:24:11,738 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:24:11,740 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:24:11,740 INFO sqlalchemy.engine.Engine [cached since 869s ago] ()
+INFO:     127.0.0.1:16350 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:24:11,870 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:27:47,965 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:47,969 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:27:47,970 INFO sqlalchemy.engine.Engine [cached since 1085s ago] ()
+2026-11-18 13:27:47,973 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:47,974 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:27:47,975 INFO sqlalchemy.engine.Engine [cached since 1085s ago] ()
+2026-11-18 13:27:47,979 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:47,979 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:27:47,980 INFO sqlalchemy.engine.Engine [cached since 1084s ago] ()
+2026-11-18 13:27:47,985 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:47,986 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:27:47,986 INFO sqlalchemy.engine.Engine [cached since 1085s ago] ()
+2026-11-18 13:27:47,991 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:47,992 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:27:47,993 INFO sqlalchemy.engine.Engine [cached since 1085s ago] ()
+INFO:     127.0.0.1:19167 - "POST /db/servers/filtered/agg?column=exposure_category HTTP/1.1" 200 OK
+2026-11-18 13:27:48,021 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:10286 - "POST /db/vulnerabilities/filtered/agg?column=severity HTTP/1.1" 200 OK
+2026-11-18 13:27:48,220 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:50413 - "POST /db/vulnerabilities/filtered/agg?column=finding_status HTTP/1.1" 200 OK
+2026-11-18 13:27:48,232 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:19170 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:27:48,349 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:19171 - "POST /db/vulnerabilities/filtered/agg?column=server_id HTTP/1.1" 200 OK
+2026-11-18 13:27:48,449 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:27:52,695 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:52,696 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:27:52,697 INFO sqlalchemy.engine.Engine [cached since 1090s ago] ()
+INFO:     127.0.0.1:1393 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:27:52,810 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:27:54,365 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:54,367 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:27:54,368 INFO sqlalchemy.engine.Engine [cached since 1092s ago] ()
+INFO:     127.0.0.1:59548 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:27:54,589 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:27:57,404 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:57,408 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities 
+WHERE vulnerabilities._id = $1::VARCHAR
+2026-11-18 13:27:57,408 INFO sqlalchemy.engine.Engine [cached since 875.2s ago] ('FND-000001',)
+INFO:     127.0.0.1:43433 - "GET /db/vulnerabilities/FND-000001 HTTP/1.1" 200 OK
+2026-11-18 13:27:57,413 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:27:57,432 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:57,433 INFO sqlalchemy.engine.Engine SELECT DISTINCT file_metadata._id, file_metadata.file_name, file_metadata.size_mb, file_metadata.upload_date, file_metadata.records, file_metadata.new_vulnerabilities, file_metadata.fixed_vulnerabilities 
+FROM file_metadata JOIN file_vulnerabilities ON file_metadata._id = file_vulnerabilities.file_id 
+WHERE file_vulnerabilities.vulnerability_id = $1::VARCHAR
+2026-11-18 13:27:57,434 INFO sqlalchemy.engine.Engine [cached since 1094s ago] ('FND-000001',)
+2026-11-18 13:27:57,436 INFO sqlalchemy.engine.Engine SELECT file_servers.file_id, servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM file_servers JOIN servers ON servers._id = file_servers.server_id 
+WHERE file_servers.file_id IN ($1::VARCHAR)
+2026-11-18 13:27:57,437 INFO sqlalchemy.engine.Engine [cached since 1094s ago] ('9250331b142004d6',)
+2026-11-18 13:27:57,442 INFO sqlalchemy.engine.Engine SELECT file_vulnerabilities.file_id, vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM file_vulnerabilities JOIN vulnerabilities ON vulnerabilities._id = file_vulnerabilities.vulnerability_id 
+WHERE file_vulnerabilities.file_id IN ($1::VARCHAR)
+2026-11-18 13:27:57,443 INFO sqlalchemy.engine.Engine [cached since 1094s ago] ('9250331b142004d6',)
+INFO:     127.0.0.1:8216 - "GET /db/files/updates-for-vulnerability/FND-000001 HTTP/1.1" 200 OK
+2026-11-18 13:27:57,554 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:27:59,948 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:27:59,949 INFO sqlalchemy.engine.Engine SELECT servers._id, servers.os_family, servers.os_lifecycle, servers.infrastructure_type, servers.asset_type, servers.functional_role, servers.environment, servers.region_group, servers.asset_criticality, servers.cpu_capacity_band, servers.memory_capacity_band, servers.architecture_band, servers.inventory_freshness_band, servers.boot_age_band, servers.exposure_category, servers.risk_band, servers.vulnerability_volume_band 
+FROM servers
+2026-11-18 13:27:59,950 INFO sqlalchemy.engine.Engine [cached since 1096s ago] ()
+INFO:     127.0.0.1:45040 - "POST /db/servers/filtered HTTP/1.1" 200 OK
+2026-11-18 13:27:59,960 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:28:20,446 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:28:20,447 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:28:20,448 INFO sqlalchemy.engine.Engine [cached since 1118s ago] ()
+INFO:     127.0.0.1:20295 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:28:20,643 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-11-18 13:29:44,022 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-11-18 13:29:44,023 INFO sqlalchemy.engine.Engine SELECT vulnerabilities._id, vulnerabilities.server_id, vulnerabilities.vulnerability_type_id, vulnerabilities.functional_category, vulnerabilities.severity, vulnerabilities.finding_status, vulnerabilities.age_band, vulnerabilities.last_seen_band, vulnerabilities.detection_frequency_band, vulnerabilities.reopen_band, vulnerabilities.exploitability, vulnerabilities.malware_association, vulnerabilities.compliance_flag, vulnerabilities.port_category, vulnerabilities.protocol_category, vulnerabilities.encryption_context, vulnerabilities.remediation_category, vulnerabilities.slastatus, vulnerabilities.asset_criticality, vulnerabilities.finding_risk_band 
+FROM vulnerabilities
+2026-11-18 13:29:44,024 INFO sqlalchemy.engine.Engine [cached since 1201s ago] ()
+INFO:     127.0.0.1:5361 - "POST /db/vulnerabilities/filtered HTTP/1.1" 200 OK
+2026-11-18 13:29:44,184 INFO sqlalchemy.engine.Engine ROLLBACK

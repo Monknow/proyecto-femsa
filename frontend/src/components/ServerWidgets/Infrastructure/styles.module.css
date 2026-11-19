@@ -1,0 +1,5 @@
+.infrastructure {
+    display: flex;
+    flex-flow: column;
+    gap: var(--space-1);
+}

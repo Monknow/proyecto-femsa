@@ -102,6 +102,13 @@ async def get_files_that_update_server(
     return await db_service_retrival.get_files_that_update_server(_id=_id, db=db)
 
 
+@router.get("/files/updates-for-vulnerability/{_id}", response_model=FileMetadataListResponse)
+async def get_files_that_update_vulnerability(
+    _id: str, db: AsyncSession = Depends(get_db)
+):
+    return await db_service_retrival.get_files_that_update_vulnerability(_id=_id, db=db)
+
+
 # -------------------------------------------------------------------------
 # Single Entity by ID Endpoints
 # -------------------------------------------------------------------------

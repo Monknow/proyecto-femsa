@@ -10,7 +10,7 @@ export const WidgetList: FC<WidgetListProps> = ({list, title, label}) => {
             <ul>
                 {list.map(({name, value}) => {
                     return (
-                        <li>
+                        <li key={name}>
                             <p className={classes["name"]}>{name}</p>
                             <strong>
                                 <span className={classes["value"]}>{value}</span>
