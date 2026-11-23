@@ -6,7 +6,6 @@ export const HotBar = () => {
             <p>Reportes rápidos</p>
             <div className={classes["actions"]}>
                 <button>Ejecutivo</button>
-                <button>Técnico</button>
             </div>
         </section>
     );

@@ -13,6 +13,8 @@ env/
 ENV/
 .venv/
 
+*.log
+
 # Environment variables
 .env
 .env.local

@@ -1,1 +1,1 @@
-export type CurrentFilesProps = {};
+export type CurrentFilesProps = {refreshKey?: number};

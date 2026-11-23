@@ -2,7 +2,7 @@ import {useState, type ChangeEvent} from "react";
 import classes from "./styles.module.css";
 import {FilesToUpload} from "@components/FilesToUpload";
 
-export const FileInput = () => {
+export const FileInput = ({onUploaded}: {onUploaded?: () => void}) => {
     const [files, setFiles] = useState<File[]>([]);
 
     const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +20,7 @@ export const FileInput = () => {
     return (
         <>
             {files.length ? (
-                <FilesToUpload files={files} setFiles={setFiles} />
+                <FilesToUpload files={files} setFiles={setFiles} onUploaded={onUploaded} />
             ) : (
                 <label htmlFor="upload" className={classes["upload-file"]}>
                     <h3>Upload File</h3>

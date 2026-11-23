@@ -22,10 +22,4 @@
         white-space: nowrap;
         border: 0;
     }
-
-    [role="button"] {
-        background-color: red;
-
-        padding: var(--space-2);
-    }
 }

@@ -34,7 +34,10 @@ const request = <T>(method: "GET" | "POST", path: string, body?: unknown): Promi
         });
 
         if (!response.ok) {
-            const detail = await response.json().then((json) => json?.detail).catch(() => undefined);
+            const detail = await response
+                .json()
+                .then((json) => json?.detail)
+                .catch(() => undefined);
             throw new ApiError(response.status, typeof detail === "string" ? detail : response.statusText);
         }
 
@@ -44,6 +47,25 @@ const request = <T>(method: "GET" | "POST", path: string, body?: unknown): Promi
 
     inFlight.set(key, promise);
     return promise;
+};
+
+// Multipart upload of one Excel file; the backend validates it and loads it into the DB.
+const uploadFile = async (file: File): Promise<void> => {
+    const form = new FormData();
+    form.append("file", file);
+
+    // No Content-Type header: the browser sets the multipart boundary itself.
+    const response = await fetch(`${BASE_URL}/db/load`, {method: "POST", body: form});
+
+    if (!response.ok) {
+        const detail = await response
+            .json()
+            .then((json) => json?.detail)
+            .catch(() => undefined);
+        const message =
+            typeof detail === "string" ? detail : typeof detail?.message === "string" ? detail.message : response.statusText;
+        throw new ApiError(response.status, message);
+    }
 };
 
 export type Aggregation = Record<string, number>;
@@ -61,7 +83,8 @@ export const api = {
     getServers: () => request<Server[]>("POST", "/db/servers/filtered", {}),
     getServer: (id: string) => request<Server>("GET", `/db/servers/${id}`),
     getServerHistory: (id: string) => request<FileMetadata[]>("GET", `/db/files/updates-for-server/${id}`),
-
+    getFiles: () => request<FileMetadata[]>("POST", "/db/files/filtered", {}),
+    uploadFile,
     aggregateVulnerabilities: (column: keyof Vulnerability) =>
         request<Aggregation>("POST", `/db/vulnerabilities/filtered/agg?column=${column}`, {}),
     aggregateServers: (column: keyof Server) =>

@@ -40,11 +40,26 @@
         }
 
         .delete {
-            width: 20px;
-        }
+            all: unset;
 
-        button {
-            padding: 0 var(--space-1);
+            width: 20px;
+
+            cursor: pointer;
         }
     }
+}
+
+.confirm {
+    all: unset;
+
+    color: var(--color-text-inverted);
+    padding: var(--space-2) var(--space-4);
+
+    text-align: center;
+
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-pill);
+    background-color: red;
+
+    cursor: pointer;
 }

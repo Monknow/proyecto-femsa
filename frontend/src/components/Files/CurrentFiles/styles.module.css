@@ -1,2 +1,17 @@
 .current-files {
 }
+
+.files-list {
+    list-style: none;
+}
+
+.single-file {
+    display: flex;
+    justify-content: space-between;
+
+    list-style: none;
+
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-border);
+    padding: var(--space-3);
+}
