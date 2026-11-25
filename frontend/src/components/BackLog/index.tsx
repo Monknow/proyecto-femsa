@@ -13,23 +13,14 @@ export const BackLog: FC<BackLogProps> = ({className}) => {
     return (
         <Async
             state={vulnerabilities}
-            skeleton={
-                <WidgetList className={className} title="Vulnerabilidades (Prioridad)" label="puntaje" loading />
-            }>
+            skeleton={<WidgetList className={className} title="Vulnerabilidades" label="puntaje" loading />}>
             {(vulns) => {
                 const list = vulns
                     .toSorted((a, b) => (b.score ?? 0) - (a.score ?? 0))
                     .slice(0, TOP)
                     .map(({_id, score}) => ({name: _id, value: score ?? 0, link: `/vulnerabilities/${_id}`}));
 
-                return (
-                    <WidgetList
-                        className={className}
-                        title="Vulnerabilidades (Prioridad)"
-                        list={list}
-                        label="puntaje"
-                    />
-                );
+                return <WidgetList className={className} title="Vulnerabilidades" list={list} label="puntaje" />;
             }}
         </Async>
     );
