@@ -9,6 +9,7 @@ from config import settings
 import models.models
 import routes.db_retrival as db_routes_retrival
 import routes.db_population as db_routes_population
+import routes.report_routes as report_routes
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,7 @@ app.add_middleware(
 
 app.include_router(db_routes_retrival.router)
 app.include_router(db_routes_population.router)
+app.include_router(report_routes.router)
 
 @app.get("/healthz", tags=["System"])
 def health_check(db: AsyncSession = Depends(get_db)):
