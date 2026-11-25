@@ -23,7 +23,7 @@ export const FileInput = ({onUploaded}: {onUploaded?: () => void}) => {
                 <FilesToUpload files={files} setFiles={setFiles} onUploaded={onUploaded} />
             ) : (
                 <label htmlFor="upload" className={classes["upload-file"]}>
-                    <h3>Upload File</h3>
+                    <h3>Subir archivo</h3>
 
                     <input type="file" id="upload" onChange={handleFile} multiple accept=".xlsx,.xls,.csv" />
                 </label>

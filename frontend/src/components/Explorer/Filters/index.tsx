@@ -1,11 +1,13 @@
 import {useEffect, useRef, useState, type FC} from "react";
 
+import type {Filter} from "@/types/filtering";
 import type {FiltersProps} from "./types";
 
 import classes from "./styles.module.css";
+import {filterLabels} from "@/utils/filters";
 import {SingleFilter} from "../SingleFilter";
 
-export const Filters: FC<FiltersProps> = ({data, filters}) => {
+export const Filters: FC<FiltersProps> = ({data, filters, setFilters}) => {
     const wrapperRef = useRef<HTMLUListElement>(null);
     const newFilterRef = useRef<HTMLLIElement>(null);
 
@@ -15,6 +17,15 @@ export const Filters: FC<FiltersProps> = ({data, filters}) => {
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
+    };
+
+    const addFilter = (filter: Filter) => {
+        setFilters((current) => [...current, filter]);
+        setIsOpen(false);
+    };
+
+    const removeFilter = (index: number) => {
+        setFilters((current) => current.filter((_, i) => i !== index));
     };
 
     useEffect(() => {
@@ -36,24 +47,45 @@ export const Filters: FC<FiltersProps> = ({data, filters}) => {
     return (
         <>
             <ul className={classes["filters"]}>
-                {filters.map(({columnName, type, comparable}) => {
+                {filters.map(({columnName, type, comparable}, index) => {
+                    const hasValue = type !== "empty" && type !== "not empty";
                     return (
-                        <li>
-                            <code>{columnName}</code> {type} "{comparable}"
+                        <li key={`${columnName}-${type}-${comparable}-${index}`} className={classes["filter-chip"]}>
+                            <button
+                                type="button"
+                                className={classes["remove-filter"]}
+                                aria-label="Quitar filtro"
+                                onClick={() => removeFilter(index)}
+                            >
+                                ×
+                            </button>
+                            <code>{columnName}</code>
+                            <span className={classes["filter-value"]}>
+                                {filterLabels[type]} {hasValue && `"${comparable}"`}
+                            </span>
                         </li>
                     );
                 })}
 
                 <li ref={newFilterRef} onClick={toggleOpen} className={classes["new-filter"]}>
-                    Nuevo Filtro
+                    + Nuevo Filtro
                 </li>
 
-                {columns.length === 0 && <li>Sin columnas</li>}
+                {columns.length === 0 && <li className={classes["empty-columns"]}>Sin columnas</li>}
+
+                {filters.length > 0 && (
+                    <li className={classes["clear-filters"]}>
+                        <button type="button" onClick={() => setFilters([])}>
+                            × Limpiar filtros
+                        </button>
+                    </li>
+                )}
             </ul>
             {isOpen && (
                 <ul ref={wrapperRef} className={classes["column-list"]}>
+                    <li className={classes["column-list-title"]}>Filtrar por columna</li>
                     {columns.map((columnName) => {
-                        return <SingleFilter columnName={columnName} data={data} />;
+                        return <SingleFilter key={columnName} columnName={columnName} data={data} onAdd={addFilter} />;
                     })}
                 </ul>
             )}

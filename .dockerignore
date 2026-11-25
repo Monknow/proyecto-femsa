@@ -1,0 +1,10 @@
+**/node_modules
+**/.venv
+**/__pycache__
+**/*.log
+**/.env
+.git
+data
+eda
+frontend/dist
+backend/uploaded_excels

@@ -1,0 +1,43 @@
+.home {
+    flex: 1 1;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto repeat(4, 1fr);
+    grid-template-areas:
+        "title . . hotbar"
+        "active stats stats stats"
+        "map map backlog servers"
+        "map map backlog servers"
+        "map map backlog servers";
+    gap: var(--space-4);
+    place-items: stretch;
+
+    width: calc(100dvw - 12rem - 10rem);
+    height: calc(100dvh - 10rem);
+
+    h1 {
+        grid-area: title;
+        padding-bottom: var(--space-2);
+    }
+
+    .active {
+        grid-area: active;
+    }
+
+    .stats {
+        grid-area: stats;
+    }
+
+    .map {
+        grid-area: map;
+    }
+
+    .backlog {
+        grid-area: backlog;
+    }
+
+    .servers {
+        grid-area: servers;
+    }
+}

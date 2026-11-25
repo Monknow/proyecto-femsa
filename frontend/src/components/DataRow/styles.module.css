@@ -1,0 +1,134 @@
+.grid {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1.4fr) repeat(var(--cells), minmax(0, 1fr)) var(--actions, 72px);
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.row-header {
+    padding: 0 var(--space-4);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.row {
+    position: relative;
+    padding: var(--space-3) var(--space-4);
+
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    box-shadow: rgba(100, 100, 111, 0.08) 0px 2px 10px 0px;
+
+    font-size: var(--font-size-sm);
+    transition:
+        box-shadow 0.15s,
+        border-color 0.15s;
+
+    &:hover,
+    &.open {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    &.open {
+        border-left: 4px solid var(--color-accent);
+    }
+}
+
+.icon {
+    display: flex;
+
+    svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+
+    &.danger {
+        color: var(--color-red);
+    }
+
+    &.warning {
+        color: var(--color-orange);
+    }
+
+    &.ok {
+        color: var(--color-emerald);
+    }
+
+    &.neutral {
+        color: var(--color-text-subtle);
+    }
+}
+
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+}
+
+.cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--color-text-muted);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+
+    a,
+    button {
+        all: unset;
+
+        display: flex;
+        padding: var(--space-1);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--color-surface-sunken);
+        }
+
+        &:disabled {
+            opacity: 50%;
+            cursor: not-allowed;
+        }
+    }
+
+    button[data-danger]:hover:not(:disabled) {
+        background-color: color-mix(in srgb, var(--color-red) 12%, transparent);
+
+        svg {
+            fill: var(--color-red);
+        }
+    }
+
+    svg {
+        width: 14px;
+        height: 14px;
+        fill: var(--color-text-muted);
+        transition: transform 0.15s;
+    }
+
+    button[aria-expanded="true"] svg {
+        transform: rotate(180deg);
+    }
+}
+
+.details {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+}

@@ -3,7 +3,7 @@
     flex-flow: column;
 
     strong {
-        font-size: var(--font-size-5xl);
+        font-size: 6rem;
     }
 
     p {

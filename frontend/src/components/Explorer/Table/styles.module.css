@@ -19,6 +19,8 @@
     td {
         padding: var(--space-1) var(--space-4);
         border: 1px solid var(--color-border);
+
+        background-color: var(--color-surface);
     }
 
     th {

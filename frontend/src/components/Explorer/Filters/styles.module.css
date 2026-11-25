@@ -1,15 +1,88 @@
 .filters {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: var(--space-2);
 
     grid-area: filters;
     list-style: none;
+}
 
-    li {
+.filter-chip,
+.new-filter,
+.empty-columns {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+
+    font-size: var(--font-size-xs);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+}
+
+.filter-chip {
+    gap: var(--space-1);
+    padding-left: var(--space-2);
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+
+    code {
+        font-family: inherit;
+        color: var(--color-text);
+        padding-right: var(--space-1);
+        border-right: 1px solid var(--color-border);
+    }
+
+    .filter-value {
+        font-weight: var(--font-weight-medium);
+        color: var(--color-accent);
+    }
+}
+
+.clear-filters {
+    margin-left: auto;
+
+    button {
+        all: unset;
+        cursor: pointer;
         font-size: var(--font-size-sm);
-        padding: var(--space-1) var(--space-4);
-        border-radius: var(--radius-pill);
-        border: 2px solid var(--color-border);
+        color: var(--color-text-muted);
+
+        &:hover {
+            color: var(--color-accent);
+        }
+    }
+}
+
+.column-list-title {
+    padding: var(--space-1) var(--space-2) var(--space-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.remove-filter {
+    all: unset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+
+    line-height: 1;
+    color: var(--color-text-muted);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--color-accent);
+        color: var(--color-text-inverted);
     }
 }
 
@@ -17,9 +90,17 @@
     anchor-name: --new-filter;
 
     cursor: pointer;
+    border-style: dashed;
+
+    transition:
+        color 0.15s,
+        border-color 0.15s,
+        background-color 0.15s;
 
     &:hover {
-        background-color: var(--color-surface-sunken);
+        color: var(--color-accent);
+        border-color: var(--color-accent);
+        background-color: var(--color-surface-raised);
     }
 }
 
@@ -36,23 +117,15 @@
     list-style: none;
     font-size: var(--font-size-xs);
 
-    /* max-height: 200px; */
+    max-height: 320px;
     padding: var(--space-2);
-    /* overflow-y: scroll; */
+    overflow-y: auto;
     scrollbar-width: thin;
-    border-radius: var(--radius-sm);
-    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
 
-    background-color: var(--color-surface-raised);
+    background-color: var(--color-surface);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     width: max-content;
-
-    li {
-        cursor: pointer;
-        padding: var(--space-1) var(--space-2);
-        border-radius: var(--radius-xs);
-
-        &:hover {
-            background-color: var(--color-surface-sunken);
-        }
-    }
+    min-width: 180px;
 }

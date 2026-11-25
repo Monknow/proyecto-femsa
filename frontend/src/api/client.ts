@@ -68,6 +68,48 @@ const uploadFile = async (file: File): Promise<void> => {
     }
 };
 
+const failFromResponse = async (response: Response): Promise<never> => {
+    const detail = await response
+        .json()
+        .then((json) => json?.detail)
+        .catch(() => undefined);
+    throw new ApiError(response.status, typeof detail === "string" ? detail : response.statusText);
+};
+
+// Downloads the originally uploaded file as a Blob.
+const downloadRawFile = async (id: string): Promise<Blob> => {
+    const response = await fetch(`${BASE_URL}/db/files/${encodeURIComponent(id)}/download`);
+    if (!response.ok) return failFromResponse(response);
+    return response.blob();
+};
+
+// Deletes the file's data (and its stored raw copy) from the backend.
+const deleteFile = async (id: string): Promise<void> => {
+    const response = await fetch(`${BASE_URL}/db/files/${encodeURIComponent(id)}`, {method: "DELETE"});
+    if (!response.ok) return failFromResponse(response);
+};
+
+export type ReportType ="executive" | "technical";
+
+// Asks the backend to build a PDF report and returns it as a Blob for download.
+const generateReport = async (reportType: ReportType): Promise<Blob> => {
+    const response = await fetch(`${BASE_URL}/reports/`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({report_type: reportType}),
+    });
+
+    if (!response.ok) {
+        const detail = await response
+            .json()
+            .then((json) => json?.detail)
+            .catch(() => undefined);
+        throw new ApiError(response.status, typeof detail === "string" ? detail : response.statusText);
+    }
+
+    return response.blob();
+};
+
 export type Aggregation = Record<string, number>;
 
 export const api = {
@@ -85,6 +127,9 @@ export const api = {
     getServerHistory: (id: string) => request<FileMetadata[]>("GET", `/db/files/updates-for-server/${id}`),
     getFiles: () => request<FileMetadata[]>("POST", "/db/files/filtered", {}),
     uploadFile,
+    downloadRawFile,
+    deleteFile,
+    generateReport,
     aggregateVulnerabilities: (column: keyof Vulnerability) =>
         request<Aggregation>("POST", `/db/vulnerabilities/filtered/agg?column=${column}`, {}),
     aggregateServers: (column: keyof Server) =>

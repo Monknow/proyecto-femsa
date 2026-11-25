@@ -1,6 +1,0 @@
-.main-widgets {
-    display: flex;
-    flex-flow: wrap;
-
-    gap: var(--space-4);
-}

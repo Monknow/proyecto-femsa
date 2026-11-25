@@ -48,7 +48,7 @@ export const HeaderCell = ({name, sortedBy, setSortedBy}: HeaderCellProps) => {
                         setSortedBy({propertyName: name, order: "ascending"});
                         setIsOpen(false);
                     }}>
-                    Sort Ascending {isSorted && sortedBy.order == "ascending" && <CheckIcon />}
+                    Ordenar ascendente {isSorted && sortedBy.order == "ascending" && <CheckIcon />}
                 </button>
                 <button
                     type="button"
@@ -59,7 +59,7 @@ export const HeaderCell = ({name, sortedBy, setSortedBy}: HeaderCellProps) => {
                         setSortedBy({propertyName: name, order: "descending"});
                         setIsOpen(false);
                     }}>
-                    Sort Descending {isSorted && sortedBy.order == "descending" && <CheckIcon />}
+                    Ordenar descendente {isSorted && sortedBy.order == "descending" && <CheckIcon />}
                 </button>
                 <button
                     type="button"
@@ -68,7 +68,7 @@ export const HeaderCell = ({name, sortedBy, setSortedBy}: HeaderCellProps) => {
                         setSortedBy(undefined);
                         setIsOpen(false);
                     }}>
-                    Remove Sort
+                    Quitar orden
                 </button>
             </div>
             <div className={classes["header-content"]}>

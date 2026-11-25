@@ -1,17 +1,16 @@
-.current-files {
-}
-
 .files-list {
+    display: flex;
+    flex-flow: column;
+    gap: var(--space-2);
+
     list-style: none;
 }
 
-.single-file {
-    display: flex;
-    justify-content: space-between;
-
-    list-style: none;
-
+.error {
+    padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-md);
-    border: 2px solid var(--color-border);
-    padding: var(--space-3);
+
+    font-size: var(--font-size-sm);
+    color: var(--color-red);
+    background-color: color-mix(in srgb, var(--color-red) 10%, transparent);
 }

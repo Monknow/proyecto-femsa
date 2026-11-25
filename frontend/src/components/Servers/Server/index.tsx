@@ -1,44 +1,22 @@
-import {useState, type FC} from "react";
-import classes from "./styles.module.css";
+import type {FC} from "react";
 import type {ServerProps} from "./types";
-import {Link} from "react-router";
 
-import DangerIcon from "@assets/svg/danger.svg?react";
-import OpenIcon from "@assets/svg/open.svg?react";
-import ArrowDownIcon from "@assets/svg/arrow_down.svg?react";
+import {Badge, humanize, toneFor} from "@/components/Badge";
+import {DataRow} from "@/components/DataRow";
 
-export const Server: FC<ServerProps> = ({server}) => {
-    const [isOpen, setIsOpen] = useState(false);
+const text = (value?: string | null) => (value ? humanize(value) : "—");
 
-    const toggleIcon = () => {
-        setIsOpen(!isOpen);
-    };
-
-    return (
-        <li className={classes["server"]}>
-            <div className={classes["frontmatter"]}>
-                <DangerIcon />
-                <p>{server._id} </p>
-                <p>Risk: {server.risk_band}</p>
-                <p>Environment: {server.environment}</p>
-
-                <Link to={`/servers/${server._id}`} title="Open Alone">
-                    <OpenIcon />
-                </Link>
-
-                <ArrowDownIcon onClick={toggleIcon} />
-            </div>
-            {isOpen && (
-                <ul>
-                    {Object.keys(server).map((key) => {
-                        return (
-                            <li>
-                                {key}: {server[key as keyof typeof server]}
-                            </li>
-                        );
-                    })}
-                </ul>
-            )}
-        </li>
-    );
-};
+export const Server: FC<ServerProps> = ({server}) => (
+    <DataRow
+        title={server._id}
+        tone={toneFor(server.risk_band)}
+        href={`/servers/${server._id}`}
+        details={server}
+        cells={[
+            <Badge tone={toneFor(server.risk_band)}>{text(server.risk_band)}</Badge>,
+            text(server.environment),
+            text(server.asset_criticality),
+            text(server.vulnerability_volume_band),
+        ]}
+    />
+);

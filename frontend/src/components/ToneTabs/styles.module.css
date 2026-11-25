@@ -1,0 +1,54 @@
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+
+    list-style: none;
+
+    background-color: var(--color-surface);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+
+    button {
+        all: unset;
+
+        padding: var(--space-1) var(--space-4);
+        border: 1px solid transparent;
+        border-radius: var(--radius-pill);
+
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        color: var(--tone);
+        background-color: color-mix(in srgb, var(--tone) 12%, transparent);
+        cursor: pointer;
+
+        transition:
+            background-color 0.15s,
+            color 0.15s;
+
+        &:hover {
+            background-color: color-mix(in srgb, var(--tone) 22%, transparent);
+        }
+
+        &.active {
+            color: var(--color-text-inverted);
+            background-color: var(--tone);
+        }
+    }
+}
+
+.danger {
+    --tone: var(--color-red);
+}
+
+.warning {
+    --tone: var(--color-orange);
+}
+
+.ok {
+    --tone: var(--color-emerald);
+}
+
+.neutral {
+    --tone: var(--color-text-muted);
+}

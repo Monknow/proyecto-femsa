@@ -10,8 +10,8 @@ export const Files = () => {
 
     return (
         <main className={classes["files"]}>
-            <h1>Files</h1>
-            <CurrentFiles refreshKey={refreshKey} />
+            <h1>Archivos</h1>
+            <CurrentFiles refreshKey={refreshKey} onChanged={() => setRefreshKey((key) => key + 1)} />
             <FileInput onUploaded={() => setRefreshKey((key) => key + 1)} />
         </main>
     );

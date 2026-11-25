@@ -1,1 +1,1 @@
-export type CurrentFilesProps = {refreshKey?: number};
+export type CurrentFilesProps = {refreshKey?: number; onChanged?: () => void};

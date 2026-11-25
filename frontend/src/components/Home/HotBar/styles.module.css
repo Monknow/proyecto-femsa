@@ -1,34 +1,61 @@
 .hotbar {
     grid-area: hotbar;
+    justify-content: stretch;
 
     display: flex;
-    flex-flow: column;
-    gap: var(--space-1);
-
-    p {
-        color: var(--color-text-muted);
-        font-size: var(--font-size-xs);
-    }
-}
-
-.actions {
-    display: flex;
-    /* gap: var(--space-2); */
+    gap: var(--space-2);
 
     button {
         all: unset;
 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+
+        flex: 1;
+
         padding: var(--space-1) var(--space-5);
-        border: 2px solid var(--color-border);
+        border-radius: var(--radius-pill);
 
         text-box: trim-both cap alphabetic;
+        text-align: center;
 
-        &:nth-child(odd) {
-            border-right-width: 1px;
+        cursor: pointer;
+
+        &:hover,
+        :active {
+            scale: 1.015;
         }
 
-        &:nth-child(even) {
-            border-left-width: 1px;
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: progress;
+    }
+
+    .executive {
+        font-weight: 500;
+
+        background: linear-gradient(60deg, var(--color-red), var(--color-accent), var(--color-accent-soft));
+        color: var(--color-text-inverted);
+
+        svg {
+            fill: var(--color-text-inverted);
+        }
+    }
+
+    .technical {
+        border: 3px solid var(--color-accent);
+        color: var(--color-text-accent);
+
+        svg {
+            fill: var(--color-text-accent);
         }
     }
 }

@@ -208,5 +208,65 @@ async def load_dataframes_to_db(
 
     except Exception as e:
         await handle_db_error(e, "loading dataframes to database", db)
-        
-        
+
+
+async def delete_file_data(file_id: str, db: Optional[AsyncSession] = None) -> StatusResponse:
+    """
+    Deletes one file's metadata plus the data that only this file contributed:
+    its links, the vulnerabilities and servers not referenced by any other file.
+    """
+    try:
+        async with session_scope(db) as session:
+            if await session.get(FileMetadataModel, file_id) is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"File '{file_id}' not found.",
+                )
+
+            fv, fs = file_vulnerabilities_association, file_servers_association
+
+            # Candidates: vulnerabilities / servers linked to this file.
+            vuln_ids = (await session.execute(
+                select(fv.c.vulnerability_id).where(fv.c.file_id == file_id)
+            )).scalars().all()
+            server_ids = (await session.execute(
+                select(fs.c.server_id).where(fs.c.file_id == file_id)
+            )).scalars().all()
+
+            # Remove this file's links and the metadata row.
+            await session.execute(fv.delete().where(fv.c.file_id == file_id))
+            await session.execute(fs.delete().where(fs.c.file_id == file_id))
+            await session.execute(
+                FileMetadataModel.__table__.delete().where(FileMetadataModel._id == file_id)
+            )
+
+            # Vulnerabilities no other file references.
+            if vuln_ids:
+                still_linked = select(fv.c.vulnerability_id).where(fv.c.vulnerability_id.in_(vuln_ids))
+                await session.execute(
+                    VulnerabilityModel.__table__.delete().where(
+                        VulnerabilityModel._id.in_(vuln_ids),
+                        VulnerabilityModel._id.not_in(still_linked),
+                    )
+                )
+
+            # Servers no other file references and that have no remaining vulnerabilities.
+            if server_ids:
+                still_linked = select(fs.c.server_id).where(fs.c.server_id.in_(server_ids))
+                has_vulns = select(VulnerabilityModel.server_id).where(
+                    VulnerabilityModel.server_id.in_(server_ids)
+                )
+                await session.execute(
+                    ServerModel.__table__.delete().where(
+                        ServerModel._id.in_(server_ids),
+                        ServerModel._id.not_in(still_linked),
+                        ServerModel._id.not_in(has_vulns),
+                    )
+                )
+
+            await session.commit()
+            logger.info(f"Deleted file '{file_id}' and its exclusive data.")
+        return StatusResponse(status=status.HTTP_200_OK)
+
+    except Exception as e:
+        await handle_db_error(e, "deleting file data", db)

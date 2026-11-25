@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      POSTGRE_URI: postgresql+asyncpg://femsa:femsa@db:5432/femsa
+      ALLOWED_ORIGINS: '["http://localhost:8000"]'
+      ENVIRONMENT: development
+    volumes: [uploads:/app/uploaded_excels]
+    depends_on: [db]
+  db:
+    image: postgres:17
+    environment: {POSTGRES_USER: femsa, POSTGRES_PASSWORD: femsa, POSTGRES_DB: femsa}
+    volumes: [pgdata:/var/lib/postgresql/data]
+volumes: {uploads: {}, pgdata: {}}

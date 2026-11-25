@@ -3,7 +3,7 @@
     flex-flow: column;
     gap: var(--space-1);
 
-    width: 500px;
+    width: 100%;
 
     list-style: none;
 
@@ -12,6 +12,10 @@
     strong {
         font-size: var(--font-size-xs);
     }
+}
+
+.skeleton-bar {
+    border-radius: var(--radius-pill);
 }
 
 .bar {

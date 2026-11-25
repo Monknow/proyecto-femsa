@@ -1,40 +1,24 @@
-import {useState} from "react";
-
 import {api} from "@/api/client";
-import {useApi} from "@/hooks/useApi";
-import {Async} from "@/components/Async";
-
-import classes from "./styles.module.css";
+import {DataList} from "@/components/DataList";
 import {Vulnerability} from "@/components/Vulnerabilities/Vulnerability";
-import {Tabs} from "./Tabs";
+
 import type {Tab} from "@/types/tabs";
 
-export const Vulnerabilities = () => {
-    const [currenTab, setCurrenTab] = useState<Tab>("all");
-    const vulnerabilities = useApi(api.getVulnerabilities);
-
-    return (
-        <div className={classes["vulnerabilities"]}>
-            <h1>Vulnerabilities</h1>
-
-            <Tabs currenTab={currenTab} setCurrentTab={setCurrenTab} />
-
-            <Async state={vulnerabilities}>
-                {(vulns) => {
-                    const filteredVulns =
-                        currenTab === "all"
-                            ? vulns
-                            : vulns.filter((entry) => entry.finding_status?.toLowerCase() === currenTab);
-
-                    return (
-                        <ul className={classes["list"]}>
-                            {filteredVulns.map((vuln) => {
-                                return <Vulnerability vuln={vuln} key={vuln._id} />;
-                            })}
-                        </ul>
-                    );
-                }}
-            </Async>
-        </div>
-    );
+const tabs: Record<Tab, string> = {
+    all: "Todas",
+    active: "Activas",
+    new: "Nuevas",
+    reopened: "Reabiertas",
+    remediated: "Remediadas",
 };
+
+export const Vulnerabilities = () => (
+    <DataList
+        title="Vulnerabilidades"
+        fetcher={api.getVulnerabilities}
+        tabs={tabs}
+        tabValue={(vuln) => vuln.finding_status}
+        headers={["Puntaje", "Estatus", "Severidad", "Servidor"]}
+        renderRow={(vuln) => <Vulnerability vuln={vuln} key={vuln._id} />}
+    />
+);

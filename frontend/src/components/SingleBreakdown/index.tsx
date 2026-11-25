@@ -1,5 +1,6 @@
 import type {FC} from "react";
 import type {SingleBreakdownProps} from "./type";
+import {Skeleton} from "@components/Skeleton";
 import classes from "./styles.module.css";
 
 const COLORS = [
@@ -11,7 +12,7 @@ const COLORS = [
     "var(--color-pink)",
 ];
 
-export const SingleBreakdown: FC<SingleBreakdownProps> = ({title, data}) => {
+export const SingleBreakdown: FC<SingleBreakdownProps> = ({title, data = [], loading, palette}) => {
     const totalValues = data.reduce((accum, current) => {
         return accum + current.value;
     }, 0);
@@ -27,6 +28,7 @@ export const SingleBreakdown: FC<SingleBreakdownProps> = ({title, data}) => {
     return (
         <li className={classes["single-breakdown"]}>
             <strong>{title}</strong>
+            {loading && <Skeleton height="var(--space-3)" className={classes["skeleton-bar"]} />}
             <div className={classes["bar"]}>
                 {data.map(({name, value, level}, index) => {
                     return (
@@ -37,7 +39,7 @@ export const SingleBreakdown: FC<SingleBreakdownProps> = ({title, data}) => {
                                 width: `${(value / totalValues) * 100}%`,
                                 background: level
                                     ? `oklch(from var(--color-accent) ${1.25 - level / highestLevel} c h)`
-                                    : COLORS[index],
+                                    : (palette?.[name] ?? COLORS[index % COLORS.length]),
                                 // 1.25 so it doesn't get to 0 which is pure black
                             }}>
                             <p className={classes["tooltip"]}>

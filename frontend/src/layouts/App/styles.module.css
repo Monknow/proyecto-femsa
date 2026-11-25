@@ -5,4 +5,9 @@
 
     width: 100dvw;
     height: 100dvh;
+    gap: var(--space-4);
+
+    padding: var(--space-4);
+
+    scrollbar-width: thin;
 }

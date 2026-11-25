@@ -2,6 +2,7 @@ import {Outlet} from "react-router";
 
 import {Page} from "@layouts/Page";
 import {Navegation} from "@components/Navegation";
+import {Gradients} from "@/components/Gradients";
 
 import classes from "./styles.module.css";
 
@@ -12,6 +13,7 @@ export const App = () => {
             <Page>
                 <Outlet />
             </Page>
+            <Gradients />
         </div>
     );
 };
