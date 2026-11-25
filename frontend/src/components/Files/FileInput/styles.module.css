@@ -1,15 +1,8 @@
 .upload-file {
+    width: 100%;
     display: flex;
     flex-flow: column;
-    align-items: center;
-    justify-content: center;
-
-    height: stretch;
-
-    border: 3px dashed var(--color-border);
-    padding: var(--space-4) var(--space-10);
-
-    cursor: pointer;
+    align-items: stretch;
 
     input[type="file"] {
         position: absolute;

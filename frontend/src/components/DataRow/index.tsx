@@ -14,7 +14,8 @@ type DataRowProps = {
     tone?: Tone;
     cells: ReactNode[];
     href?: string;
-    details: object;
+    /** When omitted the row is not expandable. */
+    details?: object;
     actions?: ReactNode;
     icon?: ReactNode;
     /** Width of the trailing actions column; must match the header. */
@@ -64,17 +65,19 @@ export const DataRow: FC<DataRowProps> = ({title, tone = "neutral", cells, href,
                             <OpenIcon />
                         </Link>
                     )}
-                    <button
-                        type="button"
-                        aria-label={isOpen ? "Ocultar detalles" : "Mostrar detalles"}
-                        aria-expanded={isOpen}
-                        onClick={() => setIsOpen(!isOpen)}>
-                        <ArrowDownIcon />
-                    </button>
+                    {details && (
+                        <button
+                            type="button"
+                            aria-label={isOpen ? "Ocultar detalles" : "Mostrar detalles"}
+                            aria-expanded={isOpen}
+                            onClick={() => setIsOpen(!isOpen)}>
+                            <ArrowDownIcon />
+                        </button>
+                    )}
                 </span>
             </div>
 
-            {isOpen && (
+            {details && isOpen && (
                 <div className={classes["details"]}>
                     <FieldList
                         items={Object.entries(details)

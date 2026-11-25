@@ -1,9 +1,13 @@
-import {useState, type ChangeEvent} from "react";
+import {useRef, useState, type ChangeEvent} from "react";
 import classes from "./styles.module.css";
 import {FilesToUpload} from "@components/FilesToUpload";
+import {Button} from "@/components/Button";
+
+import UploadIcon from "@assets/svg/upload.svg?react";
 
 export const FileInput = ({onUploaded}: {onUploaded?: () => void}) => {
     const [files, setFiles] = useState<File[]>([]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
@@ -22,11 +26,20 @@ export const FileInput = ({onUploaded}: {onUploaded?: () => void}) => {
             {files.length ? (
                 <FilesToUpload files={files} setFiles={setFiles} onUploaded={onUploaded} />
             ) : (
-                <label htmlFor="upload" className={classes["upload-file"]}>
-                    <h3>Subir archivo</h3>
+                <div className={classes["upload-file"]}>
+                    <Button variant="gradient" icon={<UploadIcon />} onClick={() => inputRef.current?.click()}>
+                        Subir archivo
+                    </Button>
 
-                    <input type="file" id="upload" onChange={handleFile} multiple accept=".xlsx,.xls,.csv" />
-                </label>
+                    <input
+                        ref={inputRef}
+                        type="file"
+                        id="upload"
+                        onChange={handleFile}
+                        multiple
+                        accept=".xlsx,.xls,.csv"
+                    />
+                </div>
             )}
         </>
     );

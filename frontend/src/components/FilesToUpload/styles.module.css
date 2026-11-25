@@ -3,63 +3,11 @@
     flex-flow: column;
     gap: var(--space-4);
 
-    ul {
+    .list {
         display: flex;
         flex-flow: column;
         gap: var(--space-2);
 
-        list-style-position: inside;
+        list-style: none;
     }
-
-    li {
-        display: flex;
-        justify-content: space-between;
-
-        gap: var(--space-2);
-
-        & > * {
-            display: block;
-
-            padding-right: var(--space-2);
-
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .name {
-            flex: 2 1;
-        }
-
-        .date {
-            flex: 1 1;
-        }
-
-        .size {
-            flex: 1 1;
-        }
-
-        .delete {
-            all: unset;
-
-            width: 20px;
-
-            cursor: pointer;
-        }
-    }
-}
-
-.confirm {
-    all: unset;
-
-    color: var(--color-text-inverted);
-    padding: var(--space-2) var(--space-4);
-
-    text-align: center;
-
-    font-weight: var(--font-weight-bold);
-    border-radius: var(--radius-pill);
-    background-color: red;
-
-    cursor: pointer;
 }

@@ -5,57 +5,7 @@
     display: flex;
     gap: var(--space-2);
 
-    button {
-        all: unset;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-2);
-
+    .report {
         flex: 1;
-
-        padding: var(--space-1) var(--space-5);
-        border-radius: var(--radius-pill);
-
-        text-box: trim-both cap alphabetic;
-        text-align: center;
-
-        cursor: pointer;
-
-        &:hover,
-        :active {
-            scale: 1.015;
-        }
-
-        svg {
-            width: 18px;
-            height: 18px;
-        }
-    }
-
-    button:disabled {
-        opacity: 0.6;
-        cursor: progress;
-    }
-
-    .executive {
-        font-weight: 500;
-
-        background: linear-gradient(60deg, var(--color-red), var(--color-accent), var(--color-accent-soft));
-        color: var(--color-text-inverted);
-
-        svg {
-            fill: var(--color-text-inverted);
-        }
-    }
-
-    .technical {
-        border: 3px solid var(--color-accent);
-        color: var(--color-text-accent);
-
-        svg {
-            fill: var(--color-text-accent);
-        }
     }
 }
